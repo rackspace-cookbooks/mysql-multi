@@ -1,0 +1,2 @@
+GRANT REPLICATION SLAVE ON *.* TO '<%= @user %>'@'<%= @host %>' IDENTIFIED BY '<%= @password %>';
+FLUSH PRIVILEGES;
