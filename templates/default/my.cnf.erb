@@ -21,7 +21,11 @@ skip-character-set-client-handshake
 #
 # The default is now to listen only on Private IP when possible
 #
+<% if node['ipaddress'] -%>
+
 bind-address = <%= @bind_address %>
+
+<% end -%>
 
 #
 # * Fine Tuning

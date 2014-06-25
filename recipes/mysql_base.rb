@@ -36,6 +36,8 @@ else
   bindip = node['ipaddress']
 end
 
+Chef::Log.warn("bindip = #{bindip} ")
+
 # creates /etc/mysql/conf.d if it does not exist
 directory '/etc/mysql/conf.d' do
   action :create
