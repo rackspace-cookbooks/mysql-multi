@@ -30,13 +30,13 @@ serverid = serverid.to_i
 # determine best IP for bind_address in MySQL
 # if a cloud server, attempts to use internal IP
 # else defaults to main IP address
-if node.attribute?('cloud')
+if node.attribute?('cloud') and not node['cloud']['local_ipv4'].nil?
   bindip = node['cloud']['local_ipv4']
-else
+elsif not node['ipaddress'].empty?
   bindip = node['ipaddress']
+else
+  bindip = '0.0.0.0'
 end
-
-Chef::Log.warn("bindip = #{bindip} ")
 
 # creates /etc/mysql/conf.d if it does not exist
 directory '/etc/mysql/conf.d' do
