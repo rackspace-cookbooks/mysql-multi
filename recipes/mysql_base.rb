@@ -22,6 +22,11 @@ include_recipe 'apt' if node.platform_family?('debian')
 
 include_recipe 'mysql::server'
 
+# creates unique serverid via ipaddress to an int
+require 'ipaddr'
+serverid = IPAddr.new node['ipaddress']
+serverid = serverid.to_i
+
 # determine best IP for bind_address in MySQL
 # if a cloud server, attempts to use internal IP
 # else defaults to main IP address
@@ -30,11 +35,6 @@ if node.attribute?('cloud')
 else
   bindip = node['ipaddress']
 end
-
-# creates unique serverid via ipaddress to an int
-require 'ipaddr'
-serverid = IPAddr.new node['ipaddress']
-serverid = serverid.to_i
 
 # creates /etc/mysql/conf.d if it does not exist
 directory '/etc/mysql/conf.d' do
