@@ -30,9 +30,9 @@ serverid = serverid.to_i
 # determine best IP for bind_address in MySQL
 # if a cloud server, attempts to use internal IP
 # else defaults to main IP address
-if node.attribute?('cloud') and not node['cloud']['local_ipv4'].nil?
+if node.attribute?('cloud') && !node['cloud']['local_ipv4'].nil?
   bindip = node['cloud']['local_ipv4']
-elsif not node['ipaddress'].empty?
+elsif !node['ipaddress'].empty?
   bindip = node['ipaddress']
 else
   bindip = '0.0.0.0'
@@ -44,7 +44,7 @@ directory '/etc/mysql/conf.d' do
   recursive true
 end
 
-# drop custom my.cnf file 
+# drop custom my.cnf file
 template '/etc/mysql/conf.d/my.cnf' do
   cookbook 'mysql-multi'
   source 'my.cnf.erb'
