@@ -27,6 +27,7 @@ Attributes
 
 `['mysql-multi']['server_repl_password']` : is set to match `['mysql']['server_repl_password']` just to keep attribute names uniform throughout this cookbook.
 
+`['mysql-multi']['bind_ip']` is an override for the logic that determines the best bind_address for mysql. Allowing you to set it to whatever is needed for your specific configuration. 
 
 License & Authors
 -----------------
