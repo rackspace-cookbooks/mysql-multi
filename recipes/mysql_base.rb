@@ -29,13 +29,18 @@ serverid = serverid.to_i
 
 # determine best IP for bind_address in MySQL
 # if a cloud server, attempts to use internal IP
-# else defaults to main IP address
-if node.attribute?('cloud') and not node['cloud']['local_ipv4'].nil?
-  bindip = node['cloud']['local_ipv4']
-elsif not node['ipaddress'].empty?
-  bindip = node['ipaddress']
+# else defaults to main IP address or 0.0.0.0
+# unless ['mysql-multi']['bind_ip'] is set
+if node['mysql-multi']['bind_ip'].nil?
+  if node.attribute?('cloud') and not node['cloud']['local_ipv4'].nil?
+    bindip = node['cloud']['local_ipv4']
+  elsif not node['ipaddress'].empty?
+    bindip = node['ipaddress']
+  else
+    bindip = '0.0.0.0'
+  end
 else
-  bindip = '0.0.0.0'
+  bindip = node['mysql-multi']['bind_ip']
 end
 
 # creates /etc/mysql/conf.d if it does not exist
