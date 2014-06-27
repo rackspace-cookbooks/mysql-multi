@@ -1,0 +1,26 @@
+{
+  "name": "slave-01",
+  "chef_environment": "dev",
+  "json_class": "Chef::Node",
+  "automatic": {
+    "hostname": "vagrant.vm",
+    "os": "centos",
+    "recipes": [
+      "mysql-multi::mysql_slave"
+    ],
+    "roles": [
+      "database_slave"
+    ],
+    "ipaddress": "192.168.0.23"
+  },
+  "normal": {
+  },
+  "chef_type": "node",
+  "default": {
+  },
+  "override": {
+  },
+  "run_list": [
+    "role[database_slave]"
+  ]
+}

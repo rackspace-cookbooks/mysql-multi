@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe 'mysql-multi::mysql_base'
+include_recipe 'mysql-multi'
 
 # drop MySQL master specific configuration file
 template '/etc/mysql/conf.d/master.cnf' do

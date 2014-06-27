@@ -1,0 +1,32 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: centos-6.4
+
+suites:
+  - name: default
+    run_list:
+      - recipe[mysql-multi::default]
+    attributes:
+
+  - name: master
+    run_list:
+      - recipe[mysql-multi::mysql_master]
+    attributes:
+      mysql-multi:
+        slaves:
+          - "1.2.3.4"
+
+  - name: slave
+    run_list:
+      - recipe[mysql-multi::mysql_slave]
+    attributes:
+      mysql-multi:
+        master: "4.3.2.1"
