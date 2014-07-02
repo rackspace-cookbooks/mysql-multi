@@ -9,6 +9,7 @@ bin/*
 .kitchen.local.yml
 
 .DS_Store
+Gemfile.lock
 
 # Berkshelf
 Berksfile.lock
