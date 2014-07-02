@@ -32,9 +32,9 @@ serverid = serverid.to_i
 # else defaults to main IP address or 0.0.0.0
 # unless ['mysql-multi']['bind_ip'] is set
 if node['mysql-multi']['bind_ip'].nil?
-  if node.attribute?('cloud') and not node['cloud']['local_ipv4'].nil?
+  if node.attribute?('cloud') && !node['cloud']['local_ipv4'].nil?
     bindip = node['cloud']['local_ipv4']
-  elsif not node['ipaddress'].empty?
+  elsif !node['ipaddress'].empty?
     bindip = node['ipaddress']
   else
     bindip = '0.0.0.0'
