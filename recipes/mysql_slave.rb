@@ -25,12 +25,13 @@ template '/etc/mysql/conf.d/mysql_slave.cnf' do
   variables(
     cookbook_name: cookbook_name
   )
+  notifies :restart, 'mysql_service[default]', :delayed
 end
 
 # Connect slave to master MySQL server
 execute 'change master' do
   command <<-EOH
-  /usr/bin/mysql -u root -p#{node['mysql']['server_root_password']} < /root/change.master.sql
+  /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/change.master.sql
   rm -f /root/change.master.sql
   EOH
   action :nothing
@@ -48,8 +49,4 @@ template '/root/change.master.sql' do
     password: node['mysql-multi']['server_repl_password']
   )
   notifies :run, 'execute[change master]', :immediately
-end
-
-service 'mysql' do
-  action :restart
 end
