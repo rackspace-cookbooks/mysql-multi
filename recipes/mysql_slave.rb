@@ -18,6 +18,7 @@
 #
 
 include_recipe 'mysql-multi'
+include_recipe 'mysql-multi::_find_master'
 
 # drop MySQL slave specific configuration file
 template '/etc/mysql/conf.d/mysql_slave.cnf' do
@@ -50,3 +51,5 @@ template '/root/change.master.sql' do
   )
   notifies :run, 'execute[change master]', :immediately
 end
+
+tag('mysql_slave')

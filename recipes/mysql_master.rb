@@ -18,6 +18,7 @@
 #
 
 include_recipe 'mysql-multi'
+include_recipe 'mysql-multi::_find_slaves'
 
 # drop MySQL master specific configuration file
 template '/etc/mysql/conf.d/master.cnf' do
@@ -30,7 +31,6 @@ end
 
 # Grant replication on slave(s)
 node['mysql-multi']['slaves'].each do |slave|
-
   execute 'grant-slave' do
     command <<-EOH
     /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
@@ -53,3 +53,5 @@ node['mysql-multi']['slaves'].each do |slave|
     notifies :run, 'execute[grant-slave]', :immediately
   end
 end
+
+tag('mysql_master')

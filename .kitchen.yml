@@ -1,9 +1,13 @@
 ---
 driver:
   name: vagrant
+driver_config:
+  require_chef_omnibus: latest
 
 provisioner:
   name: chef_zero
+  client_rb:
+    environment: dev
 
 platforms:
   - name: ubuntu-12.04
@@ -20,13 +24,8 @@ suites:
     run_list:
       - recipe[mysql-multi::mysql_master]
     attributes:
-      mysql-multi:
-        slaves:
-          - "1.2.3.4"
 
   - name: slave
     run_list:
       - recipe[mysql-multi::mysql_slave]
     attributes:
-      mysql-multi:
-        master: "4.3.2.1"
