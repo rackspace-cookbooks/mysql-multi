@@ -25,6 +25,7 @@ template '/etc/mysql/conf.d/master.cnf' do
   variables(
     cookbook_name: cookbook_name
   )
+  notifies :restart, 'mysql_service[default]', :delayed
 end
 
 # Grant replication on slave(s)
@@ -32,7 +33,7 @@ node['mysql-multi']['slaves'].each do |slave|
 
   execute 'grant-slave' do
     command <<-EOH
-    /usr/bin/mysql -u root -p#{node['mysql']['server_root_password']} < /root/grant-slaves.sql
+    /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
     rm -f /root/grant-slaves.sql
     EOH
     action :nothing
@@ -51,8 +52,4 @@ node['mysql-multi']['slaves'].each do |slave|
     )
     notifies :run, 'execute[grant-slave]', :immediately
   end
-end
-
-service 'mysql' do
-  action :restart
 end

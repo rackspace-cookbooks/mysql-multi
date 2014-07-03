@@ -20,28 +20,16 @@
 # run apt-get update to clear cache issues
 include_recipe 'apt' if node.platform_family?('debian')
 
-include_recipe 'mysql::server'
+include_recipe 'chef-sugar'
+
+mysql_service 'default'
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'
 serverid = IPAddr.new node['ipaddress']
 serverid = serverid.to_i
 
-# determine best IP for bind_address in MySQL
-# if a cloud server, attempts to use internal IP
-# else defaults to main IP address or 0.0.0.0
-# unless ['mysql-multi']['bind_ip'] is set
-if node['mysql-multi']['bind_ip'].nil?
-  if node.attribute?('cloud') && !node['cloud']['local_ipv4'].nil?
-    bindip = node['cloud']['local_ipv4']
-  elsif !node['ipaddress'].empty?
-    bindip = node['ipaddress']
-  else
-    bindip = '0.0.0.0'
-  end
-else
-  bindip = node['mysql-multi']['bind_ip']
-end
+node.set_unless['mysql-multi']['bind_ip'] = best_ip_for(node)
 
 # creates /etc/mysql/conf.d if it does not exist
 directory '/etc/mysql/conf.d' do
@@ -56,9 +44,9 @@ template '/etc/mysql/conf.d/my.cnf' do
   variables(
     serverid: serverid,
     cookbook_name: cookbook_name,
-    bind_address: bindip
+    bind_address: node['mysql-multi']['bind_ip']
   )
-  notifies :restart, 'service[mysql]', :delayed
+  notifies :restart, 'mysql_service[default]', :delayed
 end
 
 # add /root/.my.cnf file to system for local MySQL management
@@ -73,19 +61,4 @@ template '/root/.my.cnf' do
     user: 'root',
     pass: node['mysql']['server_root_password']
   )
-end
-
-case node['platform_family']
-when 'rhel'
-  service 'mysql' do
-    service_name 'mysqld'
-    supports status: true, restart: true, reload: true
-    action [:enable, :start]
-  end
-when 'debian'
-  service 'mysql' do
-    service_name 'mysql'
-    supports status: true, restart: true, reload: true
-    action [:enable, :start]
-  end
 end
