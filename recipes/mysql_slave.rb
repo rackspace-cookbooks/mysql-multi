@@ -21,7 +21,7 @@ include_recipe 'mysql-multi'
 include_recipe 'mysql-multi::_find_master'
 
 # drop MySQL slave specific configuration file
-template '/etc/mysql/conf.d/mysql_slave.cnf' do
+template '/etc/mysql/conf.d/slave.cnf' do
   source 'slave.cnf.erb'
   variables(
     cookbook_name: cookbook_name
