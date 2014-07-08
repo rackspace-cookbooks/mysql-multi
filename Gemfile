@@ -1,10 +1,6 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-group :release do
-  gem 'stove', '>= 3.0'
-end
-
 group :lint do
   gem 'foodcritic'
   gem 'rubocop'
