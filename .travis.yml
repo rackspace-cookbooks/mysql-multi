@@ -1,5 +1,5 @@
 language: ruby
-bundler_args: --without kitchen_vagrant
+bundler_args: --without kitchen_vagrant --without release
 rvm:
 - 2.1.0
 script:
