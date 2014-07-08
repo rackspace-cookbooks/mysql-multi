@@ -11,6 +11,9 @@
     "roles": [
       "database_master"
     ],
+    "tags": [
+      "mysql_master"
+    ],
     "ipaddress": "192.168.0.23",
     "mysql": {
       "server_repl_password": "guudpasswerd"
