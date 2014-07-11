@@ -29,17 +29,17 @@ template '/etc/mysql/conf.d/master.cnf' do
   notifies :restart, 'mysql_service[default]', :delayed
 end
 
+execute 'grant-slave' do
+  command <<-EOH
+  /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
+  rm -f /root/grant-slaves.sql
+  EOH
+  action :nothing
+end
+
 # Grant replication on slave(s)
 node['mysql-multi']['slaves'].each do |slave|
-  execute 'grant-slave' do
-    command <<-EOH
-    /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
-    rm -f /root/grant-slaves.sql
-    EOH
-    action :nothing
-  end
-
-  template '/root/grant-slaves.sql' do
+  template "/root/grant-slaves.sql #{slave}" do
     path '/root/grant-slaves.sql'
     source 'grant.slave.erb'
     owner 'root'
