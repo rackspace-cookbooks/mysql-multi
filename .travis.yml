@@ -1,8 +1,14 @@
 language: ruby
-bundler_args: --without kitchen_vagrant --without release
+bundler_args: "--without kitchen_vagrant --without release --path=/tmp/bundler"
 rvm:
-- 2.1.0
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - 2.1.1
 script:
 - bundle exec rubocop
 - bundle exec foodcritic .
 - bundle exec rspec
+notifications:
+  slack:
+    secure: MiEijXQjD9URZdUmc9WhjRyHlwsp9t3/o7VbVBL3BVtR4MANh8Z1m6XxH5A4mv3X3CCfrtUIN8SePLhd6HewOuXeO7rNH1XInP3hbqX8VAd6MaFXlmafvCF4/A9f4aRJvxdmr8n/KtijbZWRvHIuDNPN1Jqbn6nJj5IkvwrbbbE=
