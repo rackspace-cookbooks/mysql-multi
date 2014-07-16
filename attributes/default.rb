@@ -1,3 +1,4 @@
+# encoding: UTF-8
 
 default['mysql-multi']['master'] = nil
 default['mysql-multi']['slaves'] = %w()
