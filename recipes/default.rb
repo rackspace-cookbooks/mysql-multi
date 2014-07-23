@@ -24,7 +24,7 @@ include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'chef-sugar'
 
 include_recipe 'mysql::server'
- 
+
 mysql_service 'default'
 
 # creates unique serverid via ipaddress to an int
