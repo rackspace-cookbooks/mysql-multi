@@ -20,7 +20,8 @@
 if Chef::Config[:solo]
   Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
 end
-if node['mysql-multi']['slaves'].nil? && !Chef::Config[:solo]
+if ( node['mysql-multi']['slaves'].nil? ||
+     node['mysql-multi']['slaves'].empty?) && !Chef::Config[:solo]
   slave_ips = []
   slaves = search('node', 'tags:mysql_slave'\
                   " AND chef_environment:#{node.chef_environment}")
