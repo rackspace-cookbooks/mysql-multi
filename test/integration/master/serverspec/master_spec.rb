@@ -12,7 +12,7 @@ end
 describe file('/etc/mysql/conf.d/master.cnf') do
   it { should contain('sync_binlog = 1').after(/^[mysqld]/) }
   it { should contain('binlog-format = mixed').after(/^[mysqld]/) }
-  it { should contain('log-bin = msyql-bin').after(/^[mysqld]/) }
+  it { should contain('log-bin = mysql-bin').after(/^[mysqld]/) }
 end
 
 describe file('/etc/mysql/conf.d/my.cnf') do
