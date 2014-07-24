@@ -18,14 +18,27 @@
 # limitations under the License.
 #
 if Chef::Config[:solo]
-  Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
-end
-if node['mysql-multi']['slaves'].nil? && !Chef::Config[:solo]
+  errmsg = 'This recipe uses search if slaves attribute is not set. \
+    Chef Solo does not support search.'
+  Chef::Application.fatal!(errmsg, 1)
+elsif node['mysql-multi']['slaves'].nil? || node['mysql-multi']['slaves'].empty?
   slave_ips = []
   slaves = search('node', 'tags:mysql_slave'\
                   " AND chef_environment:#{node.chef_environment}")
-  slaves.each do |slave|
-    slave_ips << best_ip_for(slave)
+
+  if !slaves.nil?
+    slaves.each do |slave|
+      slave_ips << best_ip_for(slave)
+    end
+    node.set['mysql-multi']['slaves'] = slave_ips
+  else
+    errmsg = 'Did not find MySQL slaves to use, but none were set'
+    Chef::Application.fatal!(errmsg, 1)
+    # fail hard if you're on chef or chef-zero and no slaves were found
+    # we don't want to assume any values, and someone intended for slaves
+    # since the master recipe was included
   end
-  node.set['mysql-multi']['slaves'] = slave_ips
+else
+  str_slaves = node['mysql-multi']['slaves']
+  Chef::Log.info("Slave MySQL servers attr was already set to #{str_slaves}")
 end

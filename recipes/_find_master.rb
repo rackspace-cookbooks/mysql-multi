@@ -18,13 +18,24 @@
 # limitations under the License.
 #
 if Chef::Config[:solo]
-  Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
-end
-if node['mysql-multi']['master'].nil? && !Chef::Config[:solo]
+  errmsg = 'This recipe uses search if master attribute is not set. \
+   Chef Solo does not support search.'
+  Chef::Application.fatal!(errmsg, 1)
+elsif node['mysql-multi']['master'].nil?
   master = search('node', 'tags:mysql_master'\
                   " AND chef_environment:#{node.chef_environment}")
 
-  Chef::Log.warn('Multiple servers tagged as master found!') if master.count > 1
-
-  node.set['mysql-multi']['master'] = best_ip_for(master.first)
+  if !master.nil?
+    Chef::Log.warn('Multiple servers tagged as master found!') if master.count > 1
+    node.set['mysql-multi']['master'] = best_ip_for(master.first)
+  else
+    errmsg = 'Did not find a MySQL master to use, but one was not set'
+    Chef::Application.fatal!(errmsg, 1)
+    # fail hard if you're on chef or chef-zero and no master was found
+    # we don't want to assume localhost or any other value, and cause more
+    # problems or an outage
+  end
+else
+  str_master = node['mysql-multi']['master']
+  Chef::Log.info("Master MySQL server was already set to #{str_master}")
 end
