@@ -23,7 +23,9 @@ if Chef::Config[:solo]
 elsif node['mysql-multi']['master'].nil?
   master = search('node', 'tags:mysql_master' << " AND chef_environment:#{node.chef_environment}")
   Chef::Log.warn('Multiple servers tagged as master found!') if master.count > 1
-  # needed because the search returns a list, so nil? is always true
+
+  # needed because the search returns a list, so nil? is always false
+  # -- we should have been checking if the first element is nil (see below)
   master = master.first
 
   if !master.nil?
