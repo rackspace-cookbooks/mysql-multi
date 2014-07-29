@@ -18,8 +18,7 @@
 # limitations under the License.
 #
 if Chef::Config[:solo]
-  errmsg = 'This recipe uses search if slaves attribute is not set. \
-    Chef Solo does not support search.'
+  errmsg = 'This recipe uses search if slaves attribute is not set.  Chef Solo does not support search.'
   Chef::Application.fatal!(errmsg, 1)
 elsif node['mysql-multi']['slaves'].nil? || node['mysql-multi']['slaves'].empty?
   slave_ips = []
