@@ -27,7 +27,7 @@ elsif node['mysql-multi']['master'].nil?
   master = master.first
 
   if !master.nil?
-    node.set['mysql-multi']['master'] = best_ip_for(master.first)
+    node.set['mysql-multi']['master'] = best_ip_for(master)
   else
     errmsg = 'Did not find a MySQL master to use, but one was not set'
     Chef::Application.fatal!(errmsg, 1)
