@@ -18,25 +18,24 @@
 # limitations under the License.
 #
 if Chef::Config[:solo]
-  errmsg = 'This recipe uses search if slaves attribute is not set. \
-    Chef Solo does not support search.'
+  errmsg = 'This recipe uses search if slaves attribute is not set.  Chef Solo does not support search.'
   Chef::Application.fatal!(errmsg, 1)
 elsif node['mysql-multi']['slaves'].nil? || node['mysql-multi']['slaves'].empty?
   slave_ips = []
-  slaves = search('node', 'tags:mysql_slave'\
-                  " AND chef_environment:#{node.chef_environment}")
+  slaves = search('node', 'tags:mysql_slave' << " AND chef_environment:#{node.chef_environment}")
 
-  if !slaves.nil?
+  # in order to check if slaves are found we need to pull the first node from the array and test for nil
+  if slaves.first.nil?
+    # fail hard if you're on chef or chef-zero and no slaves were found
+    # we don't want to assume any values, and someone intended for slaves
+    # since the master recipe was included
+    errmsg = 'Did not find MySQL slaves to use, but none were set'
+    Chef::Application.fatal!(errmsg, 1)
+  else
     slaves.each do |slave|
       slave_ips << best_ip_for(slave)
     end
     node.set['mysql-multi']['slaves'] = slave_ips
-  else
-    errmsg = 'Did not find MySQL slaves to use, but none were set'
-    Chef::Application.fatal!(errmsg, 1)
-    # fail hard if you're on chef or chef-zero and no slaves were found
-    # we don't want to assume any values, and someone intended for slaves
-    # since the master recipe was included
   end
 else
   str_slaves = node['mysql-multi']['slaves']
