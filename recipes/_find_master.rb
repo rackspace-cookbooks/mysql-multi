@@ -28,14 +28,14 @@ elsif node['mysql-multi']['master'].nil?
   # -- we should have been checking if the first element is nil (see below)
   master = master.first
 
-  if !master.nil?
-    node.set['mysql-multi']['master'] = best_ip_for(master)
-  else
-    errmsg = 'Did not find a MySQL master to use, but one was not set'
-    Chef::Application.fatal!(errmsg, 1)
+  if master.nil?
     # fail hard if you're on chef or chef-zero and no master was found
     # we don't want to assume localhost or any other value, and cause more
     # problems or an outage
+    errmsg = 'Did not find a MySQL master to use, but one was not set'
+    Chef::Application.fatal!(errmsg, 1)
+  else
+    node.set['mysql-multi']['master'] = best_ip_for(master)
   end
 else
   str_master = node['mysql-multi']['master']
