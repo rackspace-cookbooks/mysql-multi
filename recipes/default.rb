@@ -21,7 +21,6 @@
 # run apt-get update to clear cache issues
 include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'chef-sugar'
-include_recipe 'mysql::server'
 
 mysql_service node['mysql']['service_name'] do
   version node['mysql']['version']
