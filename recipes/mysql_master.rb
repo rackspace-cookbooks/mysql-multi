@@ -27,7 +27,7 @@ template '/etc/mysql/conf.d/master.cnf' do
   variables(
     cookbook_name: cookbook_name
   )
-  notifies :restart, 'mysql_service[default]', :delayed
+  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :delayed
 end
 
 execute 'grant-slave' do
