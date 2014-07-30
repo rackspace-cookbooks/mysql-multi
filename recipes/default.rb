@@ -21,9 +21,21 @@
 # run apt-get update to clear cache issues
 include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'chef-sugar'
-include_recipe 'mysql::server'
 
-mysql_service 'default'
+mysql_service node['mysql']['service_name'] do
+  version node['mysql']['version']
+  port node['mysql']['port']
+  data_dir node['mysql']['data_dir']
+  server_root_password node['mysql']['server_root_password']
+  server_debian_password node['mysql']['server_debian_password']
+  server_repl_password node['mysql']['server_repl_password']
+  allow_remote_root node['mysql']['allow_remote_root']
+  remove_anonymous_users node['mysql']['remove_anonymous_users']
+  remove_test_database node['mysql']['remove_test_database']
+  root_network_acl node['mysql']['root_network_acl']
+  version node['mysql']['version']
+  action :create
+end
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'
@@ -47,7 +59,7 @@ template '/etc/mysql/conf.d/my.cnf' do
     cookbook_name: cookbook_name,
     bind_address: node['mysql-multi']['bind_ip']
   )
-  notifies :restart, 'mysql_service[default]', :delayed
+  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :delayed
 end
 
 # add /root/.my.cnf file to system for local MySQL management

@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 if Chef::Config[:solo]
-  errmsg = 'This recipe uses search if slaves attribute is not set.  Chef Solo does not support search.'
-  Chef::Application.fatal!(errmsg, 1)
+  errmsg = 'You must specify the set of slaves to allow access for replication.'
+  Chef::Application.fatal!(errmsg, 1) if node['mysql-multi']['slaves'].nil? || node['mysql-multi']['slaves'].empty?
 elsif node['mysql-multi']['slaves'].nil? || node['mysql-multi']['slaves'].empty?
   slave_ips = []
   slaves = search('node', 'tags:mysql_slave' << " AND chef_environment:#{node.chef_environment}")
