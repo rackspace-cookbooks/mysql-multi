@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 if Chef::Config[:solo]
-  errmsg = 'This recipe uses search if master attribute is not set.  Chef Solo does not support search.'
-  Chef::Application.fatal!(errmsg, 1)
+  errmsg = 'You must specify the mysql master node to sync with.'
+  Chef::Application.fatal!(errmsg, 1) if node['mysql-multi']['master'].nil?
 elsif node['mysql-multi']['master'].nil?
   master = search('node', 'tags:mysql_master' << " AND chef_environment:#{node.chef_environment}")
   Chef::Log.warn('Multiple servers tagged as master found!') if master.count > 1
