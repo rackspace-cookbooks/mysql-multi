@@ -20,7 +20,6 @@
 if Chef::Config[:solo]
   errmsg = 'This recipe uses search if slaves attribute is not set.  Chef Solo does not support search.'
   Chef::Log.warn(errmsg)
-  node.default['mysql-multi']['slaves'] = [] # just so we don't cause Nil errors
 else
   slave_ips = []
   slaves = search('node', "tags:mysql_slave AND chef_environment:#{node.chef_environment}")
@@ -39,6 +38,6 @@ else
     node.set['mysql-multi']['slaves'] = slave_ips
   end
 
-  str_slaves = node.deep_fetch('mysql-multi','slaves')
-  Chef::Log.info("Slave MySQL servers attr was already set to #{str_slaves}")
+  str_slaves = node.deep_fetch('mysql-multi', 'slaves')
+  Chef::Log.info("Slave MySQL servers attr was set to #{str_slaves}")
 end

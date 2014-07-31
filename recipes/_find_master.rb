@@ -19,7 +19,7 @@
 #
 if Chef::Config[:solo]
   errmsg = 'This recipe uses search if master attribute is not set.  Chef Solo does not support search.'
-  default['mysql-multi']['master'] = [] # so solo doesn't cause nil errors
+  Chef::Log.warn(errmsg)
 elsif node['mysql-multi']['master'].nil?
   master = search('node', 'tags:mysql_master' << " AND chef_environment:#{node.chef_environment}")
   Chef::Log.warn('Multiple servers tagged as master found!') if master.count > 1
