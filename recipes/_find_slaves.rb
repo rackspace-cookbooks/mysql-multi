@@ -19,25 +19,26 @@
 #
 if Chef::Config[:solo]
   errmsg = 'This recipe uses search if slaves attribute is not set.  Chef Solo does not support search.'
-  Chef::Application.fatal!(errmsg, 1)
-elsif node['mysql-multi']['slaves'].nil? || node['mysql-multi']['slaves'].empty?
+  Chef::Log.warn(errmsg)
+  node.default['mysql-multi']['slaves'] = [] # just so we don't cause Nil errors
+else
   slave_ips = []
-  slaves = search('node', 'tags:mysql_slave' << " AND chef_environment:#{node.chef_environment}")
+  slaves = search('node', "tags:mysql_slave AND chef_environment:#{node.chef_environment}")
 
   # in order to check if slaves are found we need to pull the first node from the array and test for nil
-  if slaves.first.nil?
-    # fail hard if you're on chef or chef-zero and no slaves were found
+  if slaves.nil? || slaves.empty? || slaves.first.nil?
+    # fail soft if you're on chef or chef-zero and no slaves were found
     # we don't want to assume any values, and someone intended for slaves
     # since the master recipe was included
-    errmsg = 'Did not find MySQL slaves to use, but none were set'
-    Chef::Application.fatal!(errmsg, 1)
+    errmsg = 'Did not find MySQL slaves to use, reusing existing attribute'
+    Chef::Log.warn(errmsg)
   else
     slaves.each do |slave|
       slave_ips << best_ip_for(slave)
     end
     node.set['mysql-multi']['slaves'] = slave_ips
   end
-else
-  str_slaves = node['mysql-multi']['slaves']
+
+  str_slaves = node.deep_fetch('mysql-multi','slaves')
   Chef::Log.info("Slave MySQL servers attr was already set to #{str_slaves}")
 end
