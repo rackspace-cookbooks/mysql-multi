@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe 'chef-sugar'
+
 if Chef::Config[:solo]
   errmsg = 'This recipe uses search if slaves attribute is not set.  Chef Solo does not support search.'
   Chef::Log.warn(errmsg)
