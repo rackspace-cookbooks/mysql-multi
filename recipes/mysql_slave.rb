@@ -27,7 +27,7 @@ template '/etc/mysql/conf.d/slave.cnf' do
   variables(
     cookbook_name: cookbook_name
   )
-  notifies :restart, 'mysql_service[default]', :delayed
+  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :delayed
 end
 
 # Connect slave to master MySQL server
