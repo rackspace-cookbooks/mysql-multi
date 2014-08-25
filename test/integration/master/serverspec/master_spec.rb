@@ -10,11 +10,11 @@ describe command(mysql_query) do
 end
 
 describe file('/etc/mysql/conf.d/master.cnf') do
-  it { should contain('sync_binlog = 1').after(/^[mysqld]/) }
-  it { should contain('binlog-format = mixed').after(/^[mysqld]/) }
-  it { should contain('log-bin = mysql-bin').after(/^[mysqld]/) }
+  it { should contain('sync_binlog = 1').after(/^\[mysqld\]/) }
+  it { should contain('binlog-format = mixed').after(/^\[mysqld\]/) }
+  it { should contain('log-bin = mysql-bin').after(/^\[mysqld\]/) }
 end
 
 describe file('/etc/mysql/conf.d/my.cnf') do
-  it { should contain('server_id').from(/^[mysqld]/).to(/^[mysqldump]/) }
+  it { should contain('server_id').from(/^\[mysqld\]/).to(/^\[mysqldump\]/) }
 end

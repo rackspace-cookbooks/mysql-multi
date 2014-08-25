@@ -30,4 +30,5 @@ group :development do
   gem 'guard-rspec'
   gem 'fauxhai'
   gem 'pry-nav'
+  gem 'vagrant-wrapper'
 end

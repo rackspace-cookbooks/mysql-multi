@@ -11,10 +11,10 @@ describe command(mysql_query) do
 end
 
 describe file('/etc/mysql/conf.d/slave.cnf') do
-  it { should contain('sync_binlog = 1').after(/^[mysqld]/) }
-  it { should contain('read_only = 1').after(/^[mysqld]/) }
+  it { should contain('sync_binlog = 1').after(/^\[mysqld\]/) }
+  it { should contain('read_only = 1').after(/^\[mysqld\]/) }
 end
 
 describe file('/etc/mysql/conf.d/my.cnf') do
-  it { should contain('server_id').from(/^[mysqld]/).to(/^[mysqldump]/) }
+  it { should contain('server_id').from(/^\[mysqld\]/).to(/^\[mysqldump\]/) }
 end
