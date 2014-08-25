@@ -2,6 +2,8 @@
 AllCops:
   Exclude:
     - 'Rakefile'
+    - 'Gemfile'
+    - 'Guardfile'
 
 LineLength:
   Max: 180

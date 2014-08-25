@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-mysql_query = %Q(mysql -uroot -pilikerandompasswords -B --disable-column-names\
+mysql_query = %(mysql -uroot -pilikerandompasswords -B --disable-column-names\
                  -e 'select host from user where user="replicant"' mysql)
 
 describe command(mysql_query) do
