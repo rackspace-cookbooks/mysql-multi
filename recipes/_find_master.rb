@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe 'chef-sugar'
+
 if Chef::Config[:solo]
   errmsg = 'This recipe uses search if master attribute is not set.  Chef Solo does not support search.'
   Chef::Log.warn(errmsg)
@@ -36,6 +38,7 @@ elsif node['mysql-multi']['master'].nil?
     Chef::Application.fatal!(errmsg, 1)
   else
     node.set['mysql-multi']['master'] = best_ip_for(master)
+    node.set['mysql']['server_root_password'] = master['mysql']['server_root_password']
   end
 else
   str_master = node['mysql-multi']['master']

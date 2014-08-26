@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 
-include_recipe 'mysql-multi'
 include_recipe 'mysql-multi::_find_master'
+include_recipe 'mysql-multi'
 
 # drop MySQL slave specific configuration file
 template '/etc/mysql/conf.d/slave.cnf' do

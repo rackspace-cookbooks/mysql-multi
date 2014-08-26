@@ -3,6 +3,10 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v1.3.3 (??????????)
+- Set the slave root password to match master since the sync will change it (Issue #21)
+- Fix serverspec tests. (PR #22)
+
 v1.3.2 (2014-08-01)
 - Don't fail hard on solo runs without proper attribute config
 - Better logic for error checking on empty slaves
