@@ -14,13 +14,13 @@ describe file('/etc/mysql/conf.d') do
 end
 
 describe file('/etc/mysql/conf.d/my.cnf') do
-  it { should contain('server_id').from(/^[mysqld]/).to(/^[mysqldump]/) }
+  it { should contain('server_id').from(/^\[mysqld\]/).to(/^\[mysqldump\]/) }
 end
 
 describe file('/root/.my.cnf') do
-  it { should contain('user=root').from('[mysql]').to('[client]') }
-  it { should contain('password=ilikerandompasswords').from('[mysql]').to('[client]') }
-  it { should contain('user=root').after('[client]') }
-  it { should contain('password=ilikerandompasswords').after('[client]') }
+  it { should contain('user=root').from('\[mysql\]').to('\[client\]') }
+  it { should contain('password=ilikerandompasswords').from('\[mysql\]').to('\[client\]') }
+  it { should contain('user=root').after('\[client\]') }
+  it { should contain('password=ilikerandompasswords').after('\[client\]') }
   it { should be_mode(600) }
 end
