@@ -16,7 +16,8 @@
     ],
     "ipaddress": "192.168.0.23",
     "mysql": {
-      "server_repl_password": "guudpasswerd"
+      "server_repl_password": "guudpasswerd",
+      "server_root_password": "gimm3masterpassw3rd"
     }
   },
   "normal": {

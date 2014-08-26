@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-mysql_query = "mysql -uroot -pilikerandompasswords -B -e 'show slave status\\G'"
+mysql_query = "mysql -uroot -pgimm3masterpassw3rd -B -e 'show slave status\\G'"
 
 describe command(mysql_query) do
   it { should return_stdout(/Master_Host: 192\.168\.0\.23/) }
@@ -17,4 +17,8 @@ end
 
 describe file('/etc/mysql/conf.d/my.cnf') do
   it { should contain('server_id').from(/^\[mysqld\]/).to(/^\[mysqldump\]/) }
+end
+
+describe file('/root/.my.cnf') do
+  it { should contain('gimm3masterpassw3rd') }
 end
