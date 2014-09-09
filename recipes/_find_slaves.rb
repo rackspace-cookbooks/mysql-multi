@@ -32,6 +32,7 @@ else
     # we don't want to assume any values, and someone intended for slaves
     # since the master recipe was included
     errmsg = 'Did not find MySQL slaves to use, reusing existing attribute'
+    node.set['mysql-multi']['slaves'] = nil
     Chef::Log.warn(errmsg)
   else
     slaves.each do |slave|

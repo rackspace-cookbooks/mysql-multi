@@ -39,6 +39,7 @@ elsif node['mysql-multi']['master'].nil?
   else
     node.set['mysql-multi']['master'] = best_ip_for(master)
     node.set['mysql']['server_root_password'] = master['mysql']['server_root_password']
+    node.set['mysql-multi']['server_repl_password'] = master['mysql-multi']['server_repl_password']
   end
 else
   str_master = node['mysql-multi']['master']

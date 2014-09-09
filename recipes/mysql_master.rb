@@ -18,6 +18,10 @@
 # limitations under the License.
 #
 
+# set repl password
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+node.set_unless['mysql-multi']['server_repl_password'] = secure_password
+
 include_recipe 'mysql-multi::_find_slaves'
 include_recipe 'mysql-multi'
 
