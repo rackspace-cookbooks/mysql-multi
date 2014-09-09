@@ -21,6 +21,10 @@
 include_recipe 'mysql-multi::_find_slaves'
 include_recipe 'mysql-multi'
 
+# set repl password
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+node.set_unless['mysql-multi']['server_repl_password'] = secure_password
+
 # drop MySQL master specific configuration file
 template '/etc/mysql/conf.d/master.cnf' do
   source 'master.cnf.erb'
