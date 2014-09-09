@@ -11,6 +11,7 @@ supports 'ubuntu'
 supports 'centos'
 supports 'redhat'
 
-depends 'mysql'
 depends 'apt'
 depends 'chef-sugar'
+depends 'mysql'
+depends 'openssl'
