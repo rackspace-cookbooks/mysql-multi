@@ -22,6 +22,7 @@
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 node.set_unless['mysql-multi']['server_repl_password'] = secure_password
 
+include_recipe 'chef-sugar'
 include_recipe 'mysql-multi::_find_slaves'
 include_recipe 'mysql-multi'
 
@@ -58,5 +59,7 @@ node['mysql-multi']['slaves'].each do |slave|
     notifies :run, 'execute[grant-slave]', :immediately
   end
 end
+
+node.set_unless['mysql_multi']['master'] = best_ip_for(node)
 
 tag('mysql_master')
