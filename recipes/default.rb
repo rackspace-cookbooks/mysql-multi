@@ -52,8 +52,8 @@ end
 
 # drop custom my.cnf file
 template '/etc/mysql/conf.d/my.cnf' do
-  cookbook 'mysql-multi'
-  source 'my.cnf.erb'
+  cookbook node['mysql-multi']['templates']['my.cnf']['cookbook']
+  source node['mysql-multi']['templates']['my.cnf']['source']
   variables(
     serverid: serverid,
     cookbook_name: cookbook_name,
@@ -64,8 +64,8 @@ end
 
 # add /root/.my.cnf file to system for local MySQL management
 template '/root/.my.cnf' do
-  cookbook 'mysql-multi'
-  source 'user.my.cnf.erb'
+  cookbook node['mysql-multi']['templates']['user.my.cnf']['cookbook']
+  source node['mysql-multi']['templates']['user.my.cnf']['source']
   owner 'root'
   group 'root'
   mode '0600'
