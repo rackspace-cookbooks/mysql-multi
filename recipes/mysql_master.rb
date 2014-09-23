@@ -28,7 +28,8 @@ include_recipe 'mysql-multi'
 
 # drop MySQL master specific configuration file
 template '/etc/mysql/conf.d/master.cnf' do
-  source 'master.cnf.erb'
+  cookbook node['mysql-multi']['templates']['master.cnf']['cookbook']
+  source node['mysql-multi']['templates']['master.cnf']['source']
   variables(
     cookbook_name: cookbook_name
   )

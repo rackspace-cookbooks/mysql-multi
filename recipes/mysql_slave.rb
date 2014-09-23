@@ -23,7 +23,8 @@ include_recipe 'mysql-multi'
 
 # drop MySQL slave specific configuration file
 template '/etc/mysql/conf.d/slave.cnf' do
-  source 'slave.cnf.erb'
+  cookbook node['mysql-multi']['templates']['slave.cnf']['cookbook']
+  source node['mysql-multi']['templates']['slave.cnf']['source']
   variables(
     cookbook_name: cookbook_name
   )
