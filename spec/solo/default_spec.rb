@@ -20,7 +20,7 @@ describe 'mysql-multi::default' do
 
     expect(resource).to notify('mysql_service[default]').to(:restart).delayed
     expect(chef_run).to create_template('/etc/mysql/conf.d/my.cnf')
-    expect(chef_run).to render_file('/etc/mysql/conf.d/my.cnf').with_content('server_id')
+    expect(chef_run).to render_file('/etc/mysql/conf.d/my.cnf').with_content('server-id')
   end
 
   it 'creates .my.cnf' do
