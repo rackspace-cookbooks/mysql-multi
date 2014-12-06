@@ -34,8 +34,7 @@ elsif node['mysql-multi']['master'].nil?
     # fail hard if you're on chef or chef-zero and no master was found
     # we don't want to assume localhost or any other value, and cause more
     # problems or an outage
-    errmsg = 'Did not find a MySQL master to use, but one was not set'
-    Chef::Application.fatal!(errmsg, 1)
+    fail 'Did not find a MySQL master to use, but one was not set'
   else
     node.set['mysql-multi']['master'] = best_ip_for(master)
     node.set['mysql']['server_root_password'] = master['mysql']['server_root_password']

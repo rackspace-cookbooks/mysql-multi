@@ -1,13 +1,13 @@
-# A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 group :lint do
-  gem 'foodcritic'
-  gem 'rubocop'
+  gem 'foodcritic', '~> 3.0'
+  gem 'foodcritic-rackspace-rules'
+  gem 'rubocop', '~> 0.24'
 end
 
 group :unit do
-  gem 'berkshelf', '>= 3.0'
+  gem 'berkshelf', '~> 3'
   gem 'chefspec'
   gem 'chef-sugar'
 end
@@ -18,6 +18,11 @@ end
 
 group :kitchen_vagrant do
   gem 'kitchen-vagrant'
+  gem 'vagrant-wrapper'
+end
+
+group :kitchen_rackspace do
+  gem 'kitchen-rackspace'
 end
 
 group :development do
@@ -27,8 +32,6 @@ group :development do
   gem 'guard-kitchen'
   gem 'guard-foodcritic'
   gem 'guard-rubocop'
-  gem 'guard-rspec'
   gem 'fauxhai'
   gem 'pry-nav'
-  gem 'vagrant-wrapper'
 end
