@@ -13,5 +13,5 @@ supports 'redhat'
 
 depends 'apt'
 depends 'chef-sugar'
-depends 'mysql'
+depends 'mysql', '~> 5.0'
 depends 'openssl'
