@@ -61,6 +61,6 @@ node['mysql-multi']['slaves'].each do |slave|
   end
 end
 
-node.set_unless['mysql_multi']['master'] = best_ip_for(node)
+node.set_unless['mysql-multi']['master'] = best_ip_for(node)
 
 tag('mysql_master')
