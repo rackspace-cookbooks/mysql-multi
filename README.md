@@ -7,8 +7,12 @@ should work on all Debian and RHEL platform family OS's.
 Utilization
 ------------
 
-Cookbook works as a wrapper around the community MySQL cookbook to allow for
-the creation of master/slave and master/multi-slave MySQL systems.
+This cookbook works as a wrapper around the community MySQL cookbook(version 5.x only)
+to allow for the creation of master/slave and master/multi-slave MySQL systems.
+
+*** Special Note: 
+This cookbook only supports MySQL community recipe version 5.x,
+due to version 6.x changes causing major compatibility issues.
 
 The cookbook utilizes two recipes depending on the server's role.
 
