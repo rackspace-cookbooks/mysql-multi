@@ -3,6 +3,9 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v1.4.3 (update me for the release)
+- Bump for dev
+
 v1.4.2 (2014-12-05)
 - Use `fail` instead of `Chef::Application.fatal!` in `_find_master` so that it can be caught 
 
