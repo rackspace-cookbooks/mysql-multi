@@ -10,7 +10,7 @@ Utilization
 This cookbook works as a wrapper around the community MySQL cookbook(version 5.x only)
 to allow for the creation of master/slave and master/multi-slave MySQL systems.
 
-*** Special Note: 
+*** Special Note:
 This cookbook only supports MySQL community recipe version 5.x,
 due to version 6.x changes causing major compatibility issues.
 
@@ -31,6 +31,11 @@ Search will look for the node in the same environment with the tag
 `mysql_master` and set master replication to that node. If you do not want to
 use search, create the master node first before bootstrapping, and set the
 attribute `['mysql-multi']['master']` with the correct IP.
+
+Note that once a master has been discovered, it will no longer be automatically
+changed to new masters as they are deployed. If a new master is installed, or
+the existing master is deleted, you must manually set a new master for existing
+slaves by editing the `['mysql-multi']['master']` attribute as described below.
 
 Attributes
 -----------
