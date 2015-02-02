@@ -1,0 +1,34 @@
+source 'https://rubygems.org'
+
+group :lint do
+  gem 'foodcritic-rackspace-rules'
+  gem 'foodcritic'
+  gem 'rubocop'
+end
+
+group :unit do
+  gem 'berkshelf', '>= 3.0'
+  gem 'chefspec'
+  gem 'chef-sugar'
+  gem 'chef-zero'
+end
+
+group :kitchen_common do
+  gem 'test-kitchen'
+end
+
+group :development do
+  gem 'growl'
+  gem 'rb-fsevent'
+  gem 'guard'
+  gem 'guard-kitchen'
+  gem 'guard-foodcritic'
+  gem 'guard-rubocop'
+  gem 'guard-rspec'
+  gem 'fauxhai'
+  gem 'pry-nav'
+end
+
+group :pin do
+  gem 'ohai', '~> 7.4.1'
+end
