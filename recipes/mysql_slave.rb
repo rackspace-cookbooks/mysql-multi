@@ -3,7 +3,7 @@
 # Cookbook Name:: mysql-multi
 # Recipe:: mysql_slave
 #
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,20 +21,28 @@
 include_recipe 'mysql-multi::_find_master'
 include_recipe 'mysql-multi'
 
-# drop MySQL slave specific configuration file
-template '/etc/mysql/conf.d/slave.cnf' do
+# creates unique serverid via ipaddress to an int
+require 'ipaddr'
+serverid = IPAddr.new node['ipaddress']
+serverid = serverid.to_i
+
+mysql_config 'slave replication' do
+  config_name 'replication'
   cookbook node['mysql-multi']['templates']['slave.cnf']['cookbook']
+  instance node['mysql']['service_name']
   source node['mysql-multi']['templates']['slave.cnf']['source']
   variables(
-    cookbook_name: cookbook_name
+    cookbook_name: cookbook,
+    server_id: serverid,
+    mysql_instance: node['mysql']['service_name']
   )
-  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :delayed
+  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :immediately
+  action :create
 end
-
 # Connect slave to master MySQL server
 execute 'change master' do
   command <<-EOH
-  /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/change.master.sql
+  /usr/bin/mysql -h 127.0.0.1 -u root -p'#{node['mysql']['server_root_password']}' < /root/change.master.sql
   rm -f /root/change.master.sql
   EOH
   action :nothing

@@ -6,4 +6,8 @@
 [mysqld]
 sync_binlog = 1
 binlog-format = mixed
-log-bin = mysql-bin
+innodb_flush_log_at_trx_commit = 1
+log_bin = /var/log/mysql-<%= @mysql_instance %>/mysql-bin.log
+log_error = /var/log/mysql-<%= @mysql_instance %>/error.log
+relay-log = /var/log/mysql-<%= @mysql_instance %>/mysql-relay-bin.log
+server-id = <%= @server_id %>

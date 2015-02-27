@@ -3,7 +3,7 @@
 # Cookbook Name:: mysql-multi
 # Recipe:: mysql_master
 #
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,27 +18,32 @@
 # limitations under the License.
 #
 
-# set repl password
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless['mysql-multi']['server_repl_password'] = secure_password
-
 include_recipe 'chef-sugar'
 include_recipe 'mysql-multi::_find_slaves'
 include_recipe 'mysql-multi'
 
-# drop MySQL master specific configuration file
-template '/etc/mysql/conf.d/master.cnf' do
+# creates unique serverid via ipaddress to an int
+require 'ipaddr'
+serverid = IPAddr.new node['ipaddress']
+serverid = serverid.to_i
+
+mysql_config 'master replication' do
+  config_name 'replication'
   cookbook node['mysql-multi']['templates']['master.cnf']['cookbook']
+  instance node['mysql']['service_name']
   source node['mysql-multi']['templates']['master.cnf']['source']
   variables(
-    cookbook_name: cookbook_name
+    cookbook_name: cookbook,
+    server_id: serverid,
+    mysql_instance: node['mysql']['service_name']
   )
-  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :delayed
+  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :immediately
+  action :create
 end
 
 execute 'grant-slave' do
   command <<-EOH
-  /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
+  /usr/bin/mysql -h 127.0.0.1 -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
   rm -f /root/grant-slaves.sql
   EOH
   action :nothing
@@ -60,7 +65,5 @@ node['mysql-multi']['slaves'].each do |slave|
     notifies :run, 'execute[grant-slave]', :immediately
   end
 end
-
-node.set_unless['mysql-multi']['master'] = best_ip_for(node)
 
 tag('mysql_master')
