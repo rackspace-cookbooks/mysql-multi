@@ -35,4 +35,4 @@ suites:
       - recipe[mysql-multi::mysql_slave]
     attributes:
       mysql:
-        server_root_password: ilikerandompasswords
+        server_root_password: pgimm3masterpassw3rd
