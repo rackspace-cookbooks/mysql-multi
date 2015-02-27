@@ -18,48 +18,53 @@
 # limitations under the License.
 #
 
+include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'mysql-multi::_find_master'
-include_recipe 'mysql-multi'
+
+mysql2_chef_gem 'default' do
+  action :install
+end
+
+# set passwords dynamically...
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+node.set_unless['mysql-multi']['server_root_password'] = secure_password
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'
 serverid = IPAddr.new node['ipaddress']
 serverid = serverid.to_i
 
+# install mysql service
+mysql_service 'chef' do
+  initial_root_password node['mysql-multi']['server_root_password']
+  action [:create, :start]
+end
+
+# drop slave.cnf configuration file
 mysql_config 'slave replication' do
   config_name 'replication'
   cookbook node['mysql-multi']['templates']['slave.cnf']['cookbook']
-  instance node['mysql']['service_name']
+  instance node['mysql-multi']['service_name']
   source node['mysql-multi']['templates']['slave.cnf']['source']
   variables(
     cookbook_name: cookbook,
     server_id: serverid,
-    mysql_instance: node['mysql']['service_name']
+    mysql_instance: node['mysql-multi']['service_name']
   )
-  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :immediately
+  notifies :restart, "mysql_service[#{node['mysql-multi']['service_name']}]", :immediately
   action :create
 end
-# Connect slave to master MySQL server
-execute 'change master' do
-  command <<-EOH
-  /usr/bin/mysql -h 127.0.0.1 -u root -p'#{node['mysql']['server_root_password']}' < /root/change.master.sql
-  rm -f /root/change.master.sql
-  EOH
-  action :nothing
+
+# sync slaves to master
+mysqlm_slave_sync 'slaves' do
+  replpasswd node['mysql-multi']['server_repl_password']
+  rootpasswd node['mysql-multi']['server_root_password']
+  master_ip node['mysql-multi']['master_ip']
 end
 
-template '/root/change.master.sql' do
-  path '/root/change.master.sql'
-  source 'change.master.erb'
-  owner 'root'
-  group 'root'
-  mode '0600'
-  variables(
-    host: node['mysql-multi']['master'],
-    user: node['mysql-multi']['slave_user'],
-    password: node['mysql-multi']['server_repl_password']
-  )
-  notifies :run, 'execute[change master]', :immediately
+# drop .my.cnf file
+mysqlm_dot_my_cnf 'root' do
+  passwd node['mysql-multi']['server_root_password']
 end
 
 tag('mysql_slave')
