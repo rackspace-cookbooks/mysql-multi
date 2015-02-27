@@ -2,19 +2,15 @@
 
 require_relative 'spec_helper'
 
-mysql_query = "mysql -uroot -pilikerandompasswords -e 'status'"
+mysql_query = "mysql -uroot -pilikerandompasswords -h localhost -e 'status' --protocol tcp"
 
 describe command(mysql_query) do
-  it { should return_stdout(/^mysql/) }
-  it { should return_stdout(/^Uptime:/) }
+  its(:stdout) { should match /^mysql( )+Ver/ }
+  its(:stdout) { should match /^Uptime:/ }
 end
 
-describe file('/etc/mysql/conf.d') do
+describe file('/etc/mysql-chef/conf.d') do
   it { should be_directory }
-end
-
-describe file('/etc/mysql/conf.d/my.cnf') do
-  it { should contain('server_id').from(/^\[mysqld\]/).to(/^\[mysqldump\]/) }
 end
 
 describe file('/root/.my.cnf') do
