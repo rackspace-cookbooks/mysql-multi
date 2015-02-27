@@ -20,13 +20,19 @@ suites:
     run_list:
       - recipe[mysql-multi::default]
     attributes:
+      mysql:
+        server_root_password: ilikerandompasswords
 
   - name: master
     run_list:
       - recipe[mysql-multi::mysql_master]
     attributes:
+      mysql:
+        server_root_password: ilikerandompasswords
 
   - name: slave
     run_list:
       - recipe[mysql-multi::mysql_slave]
     attributes:
+      mysql:
+        server_root_password: ilikerandompasswords
