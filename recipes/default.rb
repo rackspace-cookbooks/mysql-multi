@@ -27,9 +27,8 @@ node.set_unless['mysql-multi']['bind_ip'] = best_ip_for(node)
 # set passwords dynamically...
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 node.set_unless['mysql']['server_root_password'] = secure_password
-node.save
 
-mysql_service "#{node['mysql']['service_name']}" do
+mysql_service node['mysql']['service_name'] do
   version node['mysql']['version']
   bind_address node['mysql']['bind_address']
   port node['mysql']['port']
