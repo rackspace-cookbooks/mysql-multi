@@ -6,9 +6,9 @@ mysql_query = "mysql -uroot -pgimm3masterpassw3rd -B --protocol=tcp -h\
                localhost -e 'show slave status\\G'"
 
 describe command(mysql_query) do
-  its(:stdout) { should match /Master_Host: 192\.168\.0\.23/ }
-  its(:stdout) { should match /Master_User: replicant/ }
-  its(:stdout) { should match /Master_Port: 3306/ }
+  its(:stdout) { should match(/Master_Host: 192\.168\.0\.23/) }
+  its(:stdout) { should match(/Master_User: replicant/) }
+  its(:stdout) { should match(/Master_Port: 3306/) }
 end
 
 describe file('/etc/mysql-chef/conf.d/replication.cnf') do

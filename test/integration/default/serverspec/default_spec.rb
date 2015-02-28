@@ -5,8 +5,8 @@ require_relative 'spec_helper'
 mysql_query = "mysql -uroot -pilikerandompasswords -h localhost -e 'status' --protocol tcp"
 
 describe command(mysql_query) do
-  its(:stdout) { should match /^mysql( )+Ver/ }
-  its(:stdout) { should match /^Uptime:/ }
+  its(:stdout) { should match(/^mysql( )+Ver/) }
+  its(:stdout) { should match(/^Uptime:/) }
 end
 
 describe file('/etc/mysql-chef/conf.d') do

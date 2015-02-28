@@ -7,7 +7,7 @@ mysql_query = %(mysql -uroot -pilikerandompasswords -B --disable-column-names\
                  -h localhost --protocol=tcp)
 
 describe command(mysql_query) do
-  its(:stdout) { should match /192\.168\.0\.23/ }
+  its(:stdout) { should match(/192\.168\.0\.23/) }
 end
 
 log_bin = '/var/log/mysql-chef/mysql-bin.log'
