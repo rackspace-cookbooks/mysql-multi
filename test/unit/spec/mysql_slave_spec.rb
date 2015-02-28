@@ -1,10 +1,10 @@
 # encoding: UTF-8
 
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe 'mysql-multi::mysql_slave' do
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       node.set['mysql-multi']['master'] = '1.2.3.4'
       node.set['mysql-multi']['server_repl_password'] = 'souliekr@nd0m?'
     end.converge(described_recipe)
@@ -16,11 +16,8 @@ START SLAVE;"
   end
 
   context 'when creating a slave node' do
-    it 'creates a slave config' do
-      resource = chef_run.template('/etc/mysql/conf.d/slave.cnf')
-      expect(resource).to notify('mysql_service[default]').to(:restart).delayed
-
-      expect(chef_run).to create_template('/etc/mysql/conf.d/slave.cnf')
+    it 'create default mysql config' do
+      expect(chef_run).to create_mysql_config('slave replication')
     end
 
     it 'creates change master template' do
