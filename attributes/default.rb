@@ -18,7 +18,8 @@ default['mysql-multi']['templates']['slave.cnf']['source'] = 'slave.cnf.erb'
 default['mysql-multi']['templates']['master.cnf']['cookbook'] = 'mysql-multi'
 default['mysql-multi']['templates']['master.cnf']['source'] = 'master.cnf.erb'
 
-# mysql namespace attributes needed for recipe
+# mysql namespace attributes needed for recipe since community cookbook moved
+# to version 6.x
 
 default['mysql']['server_root_password'] = nil
 default['mysql']['service_name'] = 'chef'

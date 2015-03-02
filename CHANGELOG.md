@@ -3,11 +3,14 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.0.0 (2015-3-02)
+- Major update to provide compatibility with MySQL community cookbook version 6.x
+
 v1.4.3 (update me for the release)
 - Bump for dev
 
 v1.4.2 (2014-12-05)
-- Use `fail` instead of `Chef::Application.fatal!` in `_find_master` so that it can be caught 
+- Use `fail` instead of `Chef::Application.fatal!` in `_find_master` so that it can be caught
 
 v1.3.3 (2014-08-27)
 - Set the slave root password to match master since the sync will change it (Issue #21)

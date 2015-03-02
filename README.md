@@ -7,19 +7,21 @@ should work on all Debian and RHEL platform family OS's.
 Utilization
 ------------
 
-This cookbook works as a wrapper around the community MySQL cookbook(version 5.x only)
+This cookbook works as a wrapper around the community MySQL cookbook(version 6.x only)
 to allow for the creation of master/slave and master/multi-slave MySQL systems.
 
 *** Special Note:
-This cookbook only supports MySQL community recipe version 5.x,
-due to version 6.x changes causing major compatibility issues.
+This cookbook only supports MySQL community recipe version 6.x, major changes
+in this recipe prior to version 6 have caused it to not be backwards compatible.
+If you need support for MySQL community cookbook 5.x then use version 1.4.2 of
+this cookbook.
 
 The cookbook utilizes two recipes depending on the server's role.
 
 `mysql_master.rb` : sets up a master MySQL server and creates replicant users
 for each slave node definded within attributes.
 
-Search will look for the node(s) in the same environment with the tag
+When utilized, search will look for the node(s) in the same environment with the tag
 `mysql_slave` and grant the allowed replicating node(s). If you do not want to
 use search, create the slave node(s) first before bootstrapping, and set the
 attribute `['mysql-multi']['master']` with the correct IP array.
@@ -62,7 +64,7 @@ License & Authors
 
 ```text
 
-Copyright:: 2014 Rackspace US, Inc
+Copyright:: 2014-2015 Rackspace US, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
