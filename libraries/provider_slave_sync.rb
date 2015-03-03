@@ -1,20 +1,4 @@
 class Chef
-  class Resource
-    class MysqlmSlaveSync < Chef::Resource::LWRPBase
-      resource_name :mysqlm_slave_sync
-
-      actions :create
-      default_action :create
-
-      attribute :user, kind_of: String, default: 'replicant'
-      attribute :owner, kind_of: String, default: 'root'
-      attribute :group, kind_of: String, default: 'root'
-      attribute :mode, kind_of: Fixnum, default: 0600
-      attribute :passwd, kind_of: String, default: 'BadDefaultReplPasswd'
-      attribute :master_ip, kind_of: String, default: nil
-    end
-  end
-
   class Provider
     class MysqlmSlaveSync < Chef::Provider::LWRPBase
 
@@ -31,7 +15,7 @@ class Chef
       def connect_slaves
         execute 'change master' do
           command <<-EOH
-          /usr/bin/mysql -h 127.0.0.1 -u root -p'#{node['mysql']['server_root_password']}' < /root/change.master.sql
+          /usr/bin/mysql -h #{new_resource.host} -u root -p'#{new_resource.rootpasswd}' < /root/change.master.sql
           rm -f /root/change.master.sql
           EOH
           action :nothing
@@ -46,7 +30,7 @@ class Chef
           variables(
             host: new_resource.master_ip,
             user: new_resource.user,
-            password: new_resource.passwd
+            password: new_resource.replpasswd
           )
           notifies :run, 'execute[change master]', :immediately
         end

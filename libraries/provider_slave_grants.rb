@@ -1,19 +1,4 @@
 class Chef
-  class Resource
-    class MysqlmSlaveGrants < Chef::Resource::LWRPBase
-      resource_name :mysqlm_slave_grants
-
-      actions :create
-      default_action :create
-
-      attribute :user, kind_of: String, default: 'replicant'
-      attribute :owner, kind_of: String, default: 'root'
-      attribute :group, kind_of: String, default: 'root'
-      attribute :mode, kind_of: Fixnum, default: 0600
-      attribute :passwd, kind_of: String, default: 'BadDefaultReplPasswd'
-    end
-  end
-
   class Provider
     class MysqlmSlaveGrants < Chef::Provider::LWRPBase
 
@@ -30,7 +15,7 @@ class Chef
       def grant_slave_privs
         execute 'grant-slave' do
           command <<-EOH
-          /usr/bin/mysql -h 127.0.0.1 -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
+          /usr/bin/mysql -h #{new_resource.host} -u root -p'#{new_resource.rootpasswd}' < /root/grant-slaves.sql
           rm -f /root/grant-slaves.sql
           EOH
           action :nothing
@@ -45,7 +30,7 @@ class Chef
             mode new_resource.mode
             variables(
               user: new_resource.user,
-              password: new_resource.passwd,
+              password: new_resource.replpasswd,
               host: slave
             )
             notifies :run, 'execute[grant-slave]', :immediately
