@@ -26,27 +26,17 @@ node.set_unless['mysql-multi']['bind_ip'] = best_ip_for(node)
 
 # set passwords dynamically...
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless['mysql']['server_root_password'] = secure_password
+node.set_unless['mysql-multi']['server_root_password'] = secure_password
 
-mysql_service node['mysql']['service_name'] do
-  version node['mysql']['version']
-  bind_address node['mysql']['bind_address']
-  port node['mysql']['port']
-  initial_root_password node['mysql']['server_root_password']
+mysql_service node['mysql-multi']['service_name'] do
+  version node['mysql-multi']['server_version']
+  bind_address node['mysql-multi']['bind_address']
+  port node['mysql-multi']['service_port']
+  initial_root_password node['mysql-multi']['server_root_password']
   action [:create, :start]
 end
 
 # add /root/.my.cnf file to system for local MySQL management
-template '/root/.my.cnf' do
-  cookbook node['mysql-multi']['templates']['user.my.cnf']['cookbook']
-  source node['mysql-multi']['templates']['user.my.cnf']['source']
-  owner 'root'
-  group 'root'
-  mode '0600'
-  variables(
-    cookbook_name: node['mysql-multi']['templates']['user.my.cnf']['cookbook'],
-    host: '127.0.0.1',
-    user: 'root',
-    pass: node['mysql']['server_root_password']
-  )
+mysqlm_dot_my_cnf 'root' do
+  passwd node['mysql-multi']['server_root_password']
 end

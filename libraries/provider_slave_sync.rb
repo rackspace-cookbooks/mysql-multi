@@ -1,7 +1,7 @@
 class Chef
   class Provider
+    # Sets up Mysql Slave server and connects them to master servers
     class MysqlmSlaveSync < Chef::Provider::LWRPBase
-
       use_inline_resources if defined?(use_inline_resources)
 
       def whyrun_supported?
@@ -21,9 +21,10 @@ class Chef
           action :nothing
         end
 
-        template '/root/change.master.sql' do
-          path '/root/change.master.sql'
-          source 'change.master.erb'
+        template 'change.master.sql' do
+          path new_resource.path
+          cookbook new_resource.cookbook
+          source new_resource.source
           owner new_resource.owner
           group new_resource.group
           mode new_resource.mode

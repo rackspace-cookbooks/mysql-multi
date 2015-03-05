@@ -1,7 +1,7 @@
 class Chef
   class Provider
+    # used to create and managed .my.cnf files
     class MysqlmDotMyCnf < Chef::Provider::LWRPBase
-
       use_inline_resources if defined?(use_inline_resources)
 
       def whyrun_supported?

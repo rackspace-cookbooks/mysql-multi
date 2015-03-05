@@ -1,7 +1,7 @@
 class Chef
   class Provider
+    # Used to setup permissions for MySQL replication user on master server
     class MysqlmSlaveGrants < Chef::Provider::LWRPBase
-
       use_inline_resources if defined?(use_inline_resources)
 
       def whyrun_supported?
@@ -21,10 +21,11 @@ class Chef
           action :nothing
         end
 
-        node['mysql']['slave_ip'].each do |slave|
-          template "/root/grant-slaves.sql #{slave}" do
-            path '/root/grant-slaves.sql'
-            source 'grant.slave.erb'
+        new_resource.slave_ip.each do |slave|
+          template "grant-slaves.sql #{slave}" do
+            path new_resource.path
+            cookbook new_resource.cookbook
+            source new_resource.source
             owner new_resource.owner
             group new_resource.group
             mode new_resource.mode
