@@ -12,6 +12,10 @@ class Chef
         drop_dot_my_cnf
       end
 
+      def action_delete
+        del_dot_my_cnf
+      end
+
       def drop_dot_my_cnf
         template '.my.cnf' do
           cookbook new_resource.cookbook
@@ -28,6 +32,13 @@ class Chef
             pass: new_resource.passwd
           )
           action :create
+        end
+      end
+
+      def del_dot_my_cnf
+        file '.my.cnf' do
+          path "#{new_resource.path}.my.cnf"
+          action :delete
         end
       end
     end

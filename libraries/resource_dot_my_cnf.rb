@@ -4,7 +4,7 @@ class Chef
     class MysqlmDotMyCnf < Chef::Resource::LWRPBase
       resource_name :mysqlm_dot_my_cnf
 
-      actions :create
+      actions :create, :delete
       default_action :create
 
       attribute :cookbook, kind_of: String, default: 'mysql-multi'
@@ -13,7 +13,7 @@ class Chef
       attribute :user, kind_of: String, default: 'root'
       attribute :owner, kind_of: String, default: 'root'
       attribute :group, kind_of: String, default: 'root'
-      attribute :mode, kind_of: Fixnum, default: 0600
+      attribute :mode, kind_of: String, default: '0600'
       attribute :host, kind_of: String, default: '127.0.0.1'
       attribute :passwd, kind_of: String, required: true
     end

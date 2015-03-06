@@ -13,7 +13,7 @@ class Chef
       attribute :user, kind_of: String, default: 'replicant'
       attribute :owner, kind_of: String, default: 'root'
       attribute :group, kind_of: String, default: 'root'
-      attribute :mode, kind_of: Fixnum, default: 0600
+      attribute :mode, kind_of: String, default: '0600'
       attribute :replpasswd, kind_of: String, required: true
       attribute :host, kind_of: String, default: '127.0.0.1'
       attribute :rootpasswd, kind_of: String, required: true

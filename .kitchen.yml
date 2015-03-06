@@ -8,6 +8,11 @@ provisioner:
   name: chef_zero
   client_rb:
     environment: dev
+  attributes:
+    mysql-multi:
+      master_ip: '192.168.0.21'
+      slave_ip: ['192.168.0.22']
+      server_repl_password: 'VeryBadReplPasswd'
 
 platforms:
   - name: ubuntu-12.04
@@ -19,26 +24,11 @@ suites:
   - name: default
     run_list:
       - recipe[mysql-multi::default]
-    attributes:
-      mysql-multi:
-        master_ip: '192.168.0.21'
-        slave_ip: ['192.168.0.22']
-        server_repl_password: 'VeryBadReplPasswd'
 
   - name: master
     run_list:
       - recipe[mysql-multi::mysql_master]
-    attributes:
-      mysql-multi:
-        master_ip: '192.168.0.21'
-        slave_ip: ['192.168.0.22']
-        server_repl_password: 'VeryBadReplPasswd'
 
   - name: slave
     run_list:
       - recipe[mysql-multi::mysql_slave]
-    attributes:
-      mysql-multi:
-        master_ip: '192.168.0.21'
-        slave_ip: ['192.168.0.22']
-        server_repl_password: 'VeryBadReplPasswd'
