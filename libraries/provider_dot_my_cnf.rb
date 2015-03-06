@@ -20,6 +20,7 @@ class Chef
           owner new_resource.owner
           group new_resource.group
           mode new_resource.mode
+          sensitive true
           variables(
             cookbook_name: new_resource.cookbook,
             host: new_resource.host,

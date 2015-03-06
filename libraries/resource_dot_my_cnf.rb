@@ -15,7 +15,7 @@ class Chef
       attribute :group, kind_of: String, default: 'root'
       attribute :mode, kind_of: Fixnum, default: 0600
       attribute :host, kind_of: String, default: '127.0.0.1'
-      attribute :passwd, kind_of: String, default: 'VeryBadRootPasswd'
+      attribute :passwd, kind_of: String, required: true
     end
   end
 end

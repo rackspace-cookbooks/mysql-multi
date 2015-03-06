@@ -18,6 +18,7 @@ class Chef
           /usr/bin/mysql -h #{new_resource.host} -u root -p'#{new_resource.rootpasswd}' < /root/change.master.sql
           rm -f /root/change.master.sql
           EOH
+          sensitive true
           action :nothing
         end
 
@@ -28,6 +29,7 @@ class Chef
           owner new_resource.owner
           group new_resource.group
           mode new_resource.mode
+          sensitive true
           variables(
             host: new_resource.master_ip,
             user: new_resource.user,
