@@ -10,9 +10,10 @@ provisioner:
     environment: dev
   attributes:
     mysql-multi:
-      master_ip: '192.168.0.21'
-      slave_ip: ['192.168.0.22']
+      master_ip: '192.168.0.1'
+      slave_ip: ['192.168.0.2', '192.168.0.3']
       server_repl_password: 'VeryBadReplPasswd'
+      server_root_password: 'SillyRootPasswd'
 
 platforms:
   - name: ubuntu-12.04

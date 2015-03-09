@@ -7,17 +7,13 @@ class Chef
       actions :create
       default_action :create
 
-      attribute :cookbook, kind_of: String, default: 'mysql-multi'
-      attribute :source, kind_of: String, default: 'change.master.erb'
-      attribute :path, kind_of: String, default: '/root/change.master.sql'
-      attribute :user, kind_of: String, default: 'replicant'
-      attribute :owner, kind_of: String, default: 'root'
-      attribute :group, kind_of: String, default: 'root'
-      attribute :mode, kind_of: String, default: '0600'
+      attribute :repluser, kind_of: String, default: 'replicant'
       attribute :replpasswd, kind_of: String, required: true
       attribute :master_ip, kind_of: String, required: true
+      attribute :root_user, kind_of: String, default: 'root'
       attribute :host, kind_of: String, default: '127.0.0.1'
       attribute :rootpasswd, kind_of: String, required: true
+      attribute :port, kind_of: String, default: '3306'
     end
   end
 end
