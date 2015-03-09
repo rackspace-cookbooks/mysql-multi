@@ -21,6 +21,10 @@
 include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'mysql-multi::_find_master'
 
+mysql2_chef_gem 'default' do
+  action :install
+end
+
 # set passwords dynamically...
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 node.set_unless['mysql-multi']['server_root_password'] = secure_password

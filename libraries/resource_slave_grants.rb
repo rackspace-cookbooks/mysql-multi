@@ -7,17 +7,13 @@ class Chef
       actions :create
       default_action :create
 
-      attribute :cookbook, kind_of: String, default: 'mysql-multi'
-      attribute :source, kind_of: String, default: 'grant.slave.erb'
-      attribute :path, kind_of: String, default: '/root/grant-slaves.sql'
       attribute :user, kind_of: String, default: 'replicant'
-      attribute :owner, kind_of: String, default: 'root'
-      attribute :group, kind_of: String, default: 'root'
-      attribute :mode, kind_of: String, default: '0600'
       attribute :replpasswd, kind_of: String, required: true
       attribute :host, kind_of: String, default: '127.0.0.1'
+      attribute :root_user, kind_of: String, default: 'root'
       attribute :rootpasswd, kind_of: String, required: true
       attribute :slave_ip, kind_of: Array, required: true
+      attribute :port, kind_of: String, default: '3306'
     end
   end
 end
