@@ -10,14 +10,15 @@ describe 'mysql-multi::mysql_master' do
     end.converge(described_recipe)
   end
 
-  let(:grant_content) do
-    "GRANT REPLICATION SLAVE ON *.* TO 'replicant'@'1.2.3.4' IDENTIFIED BY 'foobar';
-FLUSH PRIVILEGES;"
+  it 'installs mysql2_chef_gem' do
+    expect(chef_run).to install_mysql2_chef_gem('default')
   end
 
-  context 'when creating mysql master' do
-    it 'create default mysql config' do
-      expect(chef_run).to create_mysql_config('master replication')
-    end
+  it 'starts the default mysql service' do
+    expect(chef_run).to create_mysql_service('chef')
+  end
+
+  it 'create default mysql config' do
+    expect(chef_run).to create_mysql_config('master replication')
   end
 end

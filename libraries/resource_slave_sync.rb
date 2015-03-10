@@ -2,8 +2,6 @@ class Chef
   class Resource
     # Sets up Mysql Slave server and connects them to master servers
     class MysqlmSlaveSync < Chef::Resource::LWRPBase
-      resource_name :mysqlm_slave_sync
-
       actions :create
       default_action :create
 

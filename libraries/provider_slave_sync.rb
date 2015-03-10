@@ -1,6 +1,6 @@
 class Chef
   class Provider
-    # Sets up Mysql Slave server and connects them to master servers
+    # Connects MySQL slave server to the master server
     class MysqlmSlaveSync < Chef::Provider::LWRPBase
       include MysqlmCookbook::Helpers
 

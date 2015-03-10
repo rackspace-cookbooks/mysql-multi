@@ -10,6 +10,10 @@ Utilization
 This cookbook provides libraries to work along with MySQL community recipe to
 allow for the creation of master/slave and master/multi-slave MySQL systems.
 
+The recipes and libraries provided here are designed for clean initial setups of
+this type of servers. They are not designed to do any type of fail-over, this type
+of automation is better addressed by other tools.
+
 *** Special Note:
 This cookbook only supports MySQL community recipe version 6.x, major changes
 in this recipe prior to version 6 have caused it to not be backwards compatible.
@@ -19,7 +23,7 @@ this cookbook.
 This cookbook provides two recipes depending on the server's role. Keep in mind this
 cookbook as well as the community MySQL cookbook have gone to a pure library design.
 These recipes are provided for backwards compatibility and as examples of how to
-write wrapper recipes to utilize the libraries. They may well be removed in later releases.
+write wrapper recipes to utilize the libraries. They may be removed in later releases.
 
 `mysql_master.rb` : sets up a master MySQL server and creates replicant users
 for each slave node definded within attributes.
@@ -70,6 +74,24 @@ Additional attributes added due to the redesign of the community MySQL recipe.
 `['mysql-multi']['bind_address'] ` sets listening bind_address to 0.0.0.0 by default
 
 `['mysql-multi']['service_port']` sets listening port for MySQL service. Default to 3306.
+
+Notice on need for mysql2 gem
+-------------------------------
+
+The libraries (specifically slave_grants and slave_sync) require the mysql2 gem to be
+installed on the nodes. This is currently done within the slave/master recipes. If
+you are calling these libraries directly you need to ensure you are addressing this
+requirement.
+
+It can be addresses with this simple code addition:
+
+```ruby
+
+mysql2_chef_gem 'default' do
+  action :install
+end
+
+```
 
 Custom my.cnf settings
 ------------------------

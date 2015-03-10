@@ -2,8 +2,6 @@ class Chef
   class Resource
     # Used to setup permissions for MySQL replication user on master server
     class MysqlmSlaveGrants < Chef::Resource::LWRPBase
-      resource_name :mysqlm_slave_grants
-
       actions :create
       default_action :create
 

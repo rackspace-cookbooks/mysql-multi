@@ -10,14 +10,15 @@ describe 'mysql-multi::mysql_slave' do
     end.converge(described_recipe)
   end
 
-  let(:change_master_content) do
-    "CHANGE MASTER TO MASTER_HOST='1.2.3.4',MASTER_USER='replicant', MASTER_PASSWORD='souliekr@nd0m?';
-START SLAVE;"
+  it 'installs mysql2_chef_gem' do
+    expect(chef_run).to install_mysql2_chef_gem('default')
   end
 
-  context 'when creating a slave node' do
-    it 'create default mysql config' do
-      expect(chef_run).to create_mysql_config('slave replication')
-    end
+  it 'starts the default mysql service' do
+    expect(chef_run).to create_mysql_service('chef')
+  end
+
+  it 'create default mysql config' do
+    expect(chef_run).to create_mysql_config('slave replication')
   end
 end
