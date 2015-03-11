@@ -7,16 +7,16 @@ should work on all Debian and RHEL platform family OS's.
 Utilization
 ------------
 
-This cookbook provides libraries to work along with MySQL community recipe to
+This cookbook provides libraries to work along with MySQL community cookbook to
 allow for the creation of master/slave and master/multi-slave MySQL systems.
 
-The recipes and libraries provided here are designed for clean initial setups of
-this type of servers. They are not designed to do any type of fail-over, this type
+The recipes and libraries provided here are designed for clean initial server setups of
+this type of systems. They are not designed to do any type of fail-over, this type
 of automation is better addressed by other tools.
 
 *** Special Note:
-This cookbook only supports MySQL community recipe version 6.x, major changes
-in this recipe prior to version 6 have caused it to not be backwards compatible.
+This cookbook only supports MySQL community cookbook version 6.x, major changes
+in this cookbook prior to version 6 have caused it to not be backwards compatible.
 If you need support for MySQL community cookbook 5.x then use version 1.4.2 of
 this cookbook.
 
@@ -79,11 +79,12 @@ Notice on need for mysql2 gem
 -------------------------------
 
 The libraries (specifically slave_grants and slave_sync) require the mysql2 gem to be
-installed on the nodes. This is currently done within the slave/master recipes. If
+installed on the nodes. This is currently done within the slave/master sample recipes. If
 you are calling these libraries directly you need to ensure you are addressing this
 requirement.
 
-It can be addresses with this simple code addition:
+It can be addresses by adding the cookbook `mysql2_chef_gem' to your depends lists
+as well as adding this code to your recipe:
 
 ```ruby
 
@@ -96,10 +97,9 @@ end
 Custom my.cnf settings
 ------------------------
 
-Currently the community MySQL cookbook does not address the need to add custom my.cnf configuration options to the default my.cnf file. Accord to rumors this will
-be addressed in MySQL 6.1.
+Currently the community MySQL cookbook does not address the need to add custom my.cnf configuration options to the default my.cnf file.
 
-For now It simply drops the default my.cnf provided by the OS. You are expected to write a custom my.cnf file and add it to the /etc/mysql-service/conf.d/ directory if needed.
+It simply drops the default my.cnf provided by the OS. You are expected to write a custom my.cnf file and add it to the /etc/mysql-service/conf.d/ directory if needed.
 
 This can be done using the mysql_config resource, below is an example of what that might look like:
 
