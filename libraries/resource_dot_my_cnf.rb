@@ -2,6 +2,7 @@ class Chef
   class Resource
     # used to create and managed .my.cnf files
     class MysqlmDotMyCnf < Chef::Resource::LWRPBase
+      resource_name :mysqlm_dot_my_cnf
       actions :create, :delete
       default_action :create
 
