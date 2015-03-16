@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-mysql_query = "mysql -uroot -pilikerandompasswords -h 127.0.0.1 -e 'status' --protocol tcp"
+mysql_query = "mysql -uroot -pSillyRootPasswd -h 127.0.0.1 -e 'status' --protocol tcp"
 
 describe command(mysql_query) do
   its(:stdout) { should match(/^mysql( )+Ver/) }

@@ -2,8 +2,8 @@
 
 require_relative 'spec_helper'
 
-mysql_query = "mysql -uroot -pSillyRootPasswd -h127.0.01 -B --protocol=tcp -h\
-               localhost -e 'show slave status\\G'"
+mysql_query = "mysql -uroot -pSillyRootPasswd -B --protocol=tcp -h\
+               127.0.0.1 -e 'show slave status\\G'"
 
 describe command(mysql_query) do
   its(:stdout) { should match(/Master_Host: 192\.168\.0\.23/) }
