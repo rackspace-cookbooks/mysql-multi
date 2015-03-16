@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-mysql_query = "mysql -uroot -pgimm3masterpassw3rd -B --protocol=tcp -h\
+mysql_query = "mysql -uroot -pSillyRootPasswd -h127.0.01 -B --protocol=tcp -h\
                localhost -e 'show slave status\\G'"
 
 describe command(mysql_query) do
@@ -18,5 +18,5 @@ describe file('/etc/mysql-chef/conf.d/replication.cnf') do
 end
 
 describe file('/root/.my.cnf') do
-  it { should contain('gimm3masterpassw3rd') }
+  it { should contain('SillyRootPasswd') }
 end
