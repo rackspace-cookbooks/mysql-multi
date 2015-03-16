@@ -1,6 +1,8 @@
 mysql-multi
 ===========
 
+[![Circle CI](https://circleci.com/gh/rackspace-cookbooks/mysql-multi.svg?style=svg)](https://circleci.com/gh/rackspace-cookbooks/mysql-multi)
+
 Chef wrapper cookbook to create master/slave MySQL server setups. This wrapper
 should work on all Debian and RHEL platform family OS's.
 
