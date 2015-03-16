@@ -6,7 +6,7 @@ mysql_query = "mysql -uroot -pSillyRootPasswd -B --protocol=tcp -h\
                127.0.0.1 -e 'show slave status\\G'"
 
 describe command(mysql_query) do
-  its(:stdout) { should match(/Master_Host: 192\.168\.0\.23/) }
+  its(:stdout) { should match(/Master_Host: 192\.168\.0\.1/) }
   its(:stdout) { should match(/Master_User: replicant/) }
   its(:stdout) { should match(/Master_Port: 3306/) }
 end

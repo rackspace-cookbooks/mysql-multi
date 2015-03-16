@@ -7,10 +7,8 @@ mysql_query = %(mysql -uroot -pSillyRootPasswd -B --disable-column-names\
                  -h 127.0.0.1 --protocol=tcp)
 
 describe command(mysql_query) do
-  its(:stdout) { should match(/192\.168\.0\.23/) }
+  its(:stdout) { should match(/192\.168\.0\.2/) }
 end
-
-log_bin = '/var/log/mysql-chef/mysql-bin.log'
 
 describe file('/etc/mysql-chef/conf.d/replication.cnf') do
   it { should contain('sync_binlog = 1').after(/^\[mysqld\]/) }
