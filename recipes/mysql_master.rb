@@ -3,7 +3,7 @@
 # Cookbook Name:: mysql-multi
 # Recipe:: mysql_master
 #
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2015, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,49 +18,54 @@
 # limitations under the License.
 #
 
-# set repl password
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless['mysql-multi']['server_repl_password'] = secure_password
-
+include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'chef-sugar'
 include_recipe 'mysql-multi::_find_slaves'
-include_recipe 'mysql-multi'
 
-# drop MySQL master specific configuration file
-template '/etc/mysql/conf.d/master.cnf' do
+mysql2_chef_gem 'default' do
+  action :install
+end
+
+# set passwords dynamically...
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+node.set_unless['mysql-multi']['server_root_password'] = secure_password
+
+# creates unique serverid via ipaddress to an int
+require 'ipaddr'
+serverid = IPAddr.new node['ipaddress']
+serverid = serverid.to_i
+
+# install mysql service
+mysql_service 'chef' do
+  initial_root_password node['mysql-multi']['server_root_password']
+  action [:create, :start]
+end
+
+# drop master.cnf configuration file
+mysql_config 'master replication' do
+  config_name 'replication'
   cookbook node['mysql-multi']['templates']['master.cnf']['cookbook']
+  instance node['mysql-multi']['service_name']
   source node['mysql-multi']['templates']['master.cnf']['source']
   variables(
-    cookbook_name: cookbook_name
+    cookbook_name: cookbook,
+    server_id: serverid,
+    mysql_instance: node['mysql-multi']['service_name']
   )
-  notifies :restart, "mysql_service[#{node['mysql']['service_name']}]", :delayed
+  notifies :restart, "mysql_service[#{node['mysql-multi']['service_name']}]", :immediately
+  action :create
 end
 
-execute 'grant-slave' do
-  command <<-EOH
-  /usr/bin/mysql -u root -p'#{node['mysql']['server_root_password']}' < /root/grant-slaves.sql
-  rm -f /root/grant-slaves.sql
-  EOH
-  action :nothing
+# grant replication user privs for slave servers
+mysqlm_slave_grants 'master' do
+  replpasswd node['mysql-multi']['server_repl_password']
+  rootpasswd node['mysql-multi']['server_root_password']
+  slave_ip node['mysql-multi']['slave_ip']
 end
 
-# Grant replication on slave(s)
-node['mysql-multi']['slaves'].each do |slave|
-  template "/root/grant-slaves.sql #{slave}" do
-    path '/root/grant-slaves.sql'
-    source 'grant.slave.erb'
-    owner 'root'
-    group 'root'
-    mode '0600'
-    variables(
-      user: node['mysql-multi']['slave_user'],
-      password: node['mysql-multi']['server_repl_password'],
-      host: slave
-    )
-    notifies :run, 'execute[grant-slave]', :immediately
-  end
+# drop /root/.my.cnf file
+mysqlm_dot_my_cnf 'root' do
+  passwd node['mysql-multi']['server_root_password']
 end
-
-node.set_unless['mysql-multi']['master'] = best_ip_for(node)
 
 tag('mysql_master')

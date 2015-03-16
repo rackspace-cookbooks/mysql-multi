@@ -8,24 +8,28 @@ provisioner:
   name: chef_zero
   client_rb:
     environment: dev
+  attributes:
+    mysql-multi:
+      master_ip: '192.168.0.1'
+      slave_ip: ['192.168.0.2', '192.168.0.3']
+      server_repl_password: 'VeryBadReplPasswd'
+      server_root_password: 'SillyRootPasswd'
 
 platforms:
   - name: ubuntu-12.04
   - name: ubuntu-14.04
   - name: centos-6.5
+  - name: centos-7.0
 
 suites:
   - name: default
     run_list:
       - recipe[mysql-multi::default]
-    attributes:
 
   - name: master
     run_list:
       - recipe[mysql-multi::mysql_master]
-    attributes:
 
   - name: slave
     run_list:
       - recipe[mysql-multi::mysql_slave]
-    attributes:

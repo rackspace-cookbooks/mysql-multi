@@ -2,23 +2,21 @@
 
 require_relative 'spec_helper'
 
-mysql_query = "mysql -uroot -pgimm3masterpassw3rd -B -e 'show slave status\\G'"
+mysql_query = "mysql -uroot -pSillyRootPasswd -B --protocol=tcp -h\
+               127.0.0.1 -e 'show slave status\\G'"
 
 describe command(mysql_query) do
-  it { should return_stdout(/Master_Host: 192\.168\.0\.23/) }
-  it { should return_stdout(/Master_User: replicant/) }
-  it { should return_stdout(/Master_Port: 3306/) }
+  its(:stdout) { should match(/Master_Host: 192\.168\.0\.1/) }
+  its(:stdout) { should match(/Master_User: replicant/) }
+  its(:stdout) { should match(/Master_Port: 3306/) }
 end
 
-describe file('/etc/mysql/conf.d/slave.cnf') do
+describe file('/etc/mysql-chef/conf.d/replication.cnf') do
   it { should contain('sync_binlog = 1').after(/^\[mysqld\]/) }
   it { should contain('read_only = 1').after(/^\[mysqld\]/) }
-end
-
-describe file('/etc/mysql/conf.d/my.cnf') do
-  it { should contain('server_id').from(/^\[mysqld\]/).to(/^\[mysqldump\]/) }
+  it { should contain('server-id').from(/^\[mysqld\]/).to(/^\[/) }
 end
 
 describe file('/root/.my.cnf') do
-  it { should contain('gimm3masterpassw3rd') }
+  it { should contain('SillyRootPasswd') }
 end

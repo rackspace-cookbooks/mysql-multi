@@ -17,3 +17,12 @@ default['mysql-multi']['templates']['slave.cnf']['source'] = 'slave.cnf.erb'
 
 default['mysql-multi']['templates']['master.cnf']['cookbook'] = 'mysql-multi'
 default['mysql-multi']['templates']['master.cnf']['source'] = 'master.cnf.erb'
+
+# additional mysql namespace attributes needed for recipe since community
+# cookbook moved to version 6.x
+
+default['mysql-multi']['server_root_password'] = nil
+default['mysql-multi']['service_name'] = 'chef'
+default['mysql-multi']['server_version'] = '5.5'
+default['mysql-multi']['bind_address'] = '0.0.0.0'
+default['mysql-multi']['service_port'] = '3306'
