@@ -20,25 +20,12 @@
 
 include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'mysql-multi::_find_master'
-
-mysql2_chef_gem 'default' do
-  action :install
-end
-
-# set passwords dynamically...
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless['mysql-multi']['server_root_password'] = secure_password
+include_recipe 'mysql-multi'
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'
 serverid = IPAddr.new node['ipaddress']
 serverid = serverid.to_i
-
-# install mysql service
-mysql_service 'chef' do
-  initial_root_password node['mysql-multi']['server_root_password']
-  action [:create, :start]
-end
 
 # drop slave.cnf configuration file
 mysql_config 'slave replication' do
