@@ -18,10 +18,7 @@
 # limitations under the License.
 #
 
-include_recipe 'apt' if node.platform_family?('debian')
-include_recipe 'chef-sugar'
 include_recipe 'mysql-multi::_find_slaves'
-include_recipe 'mysql-multi'
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'

@@ -17,10 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-include_recipe 'apt' if node.platform_family?('debian')
 include_recipe 'mysql-multi::_find_master'
-include_recipe 'mysql-multi'
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'
