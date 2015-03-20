@@ -14,7 +14,7 @@ class Chef
         require 'rubygems'
         require 'mysql2'
         begin
-          new_resource.slave_ip.each do |slave|
+          new_resource.slaves.each do |slave|
             grant_repl = "GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO '#{new_resource.user}"
             grant_repl += "'@'#{slave}' IDENTIFIED BY '#{new_resource.replpasswd}';"
             local_client.query(grant_repl)
