@@ -17,29 +17,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-include_recipe 'apt' if node.platform_family?('debian')
-include_recipe 'chef-sugar'
+include_recipe node['mysql-multi']['install_recipe']
 include_recipe 'mysql-multi::_find_slaves'
-
-mysql2_chef_gem 'default' do
-  action :install
-end
-
-# set passwords dynamically...
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless['mysql-multi']['server_root_password'] = secure_password
 
 # creates unique serverid via ipaddress to an int
 require 'ipaddr'
 serverid = IPAddr.new node['ipaddress']
 serverid = serverid.to_i
-
-# install mysql service
-mysql_service 'chef' do
-  initial_root_password node['mysql-multi']['server_root_password']
-  action [:create, :start]
-end
 
 # drop master.cnf configuration file
 mysql_config 'master replication' do
@@ -60,12 +44,7 @@ end
 mysqlm_slave_grants 'master' do
   replpasswd node['mysql-multi']['server_repl_password']
   rootpasswd node['mysql-multi']['server_root_password']
-  slave_ip node['mysql-multi']['slave_ip']
-end
-
-# drop /root/.my.cnf file
-mysqlm_dot_my_cnf 'root' do
-  passwd node['mysql-multi']['server_root_password']
+  slaves node['mysql-multi']['slaves']
 end
 
 tag('mysql_master')

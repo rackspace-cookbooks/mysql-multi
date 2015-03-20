@@ -11,7 +11,7 @@ class Chef
       attribute :host, kind_of: String, default: '127.0.0.1'
       attribute :root_user, kind_of: String, default: 'root'
       attribute :rootpasswd, kind_of: String, required: true
-      attribute :slave_ip, kind_of: Array, required: true
+      attribute :slaves, kind_of: Array, required: true
       attribute :port, kind_of: String, default: '3306'
     end
   end
