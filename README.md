@@ -27,7 +27,7 @@ cookbook as well as the community MySQL cookbook have gone to a pure library des
 These recipes are provided for backwards compatibility and as examples of how to
 write wrapper recipes to utilize the libraries. They may be removed in later releases.
 
-`default.rb` : install a mysql server instance.
+`default.rb` : install a MySQL server instance.
 
 `mysql_master.rb` : sets up a master MySQL server and creates replicant users
 for each slave node defined within attributes.
