@@ -47,9 +47,4 @@ mysqlm_slave_grants 'master' do
   slave_ip node['mysql-multi']['slaves']
 end
 
-# drop /root/.my.cnf file
-mysqlm_dot_my_cnf 'root' do
-  passwd node['mysql-multi']['server_root_password']
-end
-
 tag('mysql_master')

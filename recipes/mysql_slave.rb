@@ -46,9 +46,4 @@ mysqlm_slave_sync 'slaves' do
   master_ip node['mysql-multi']['master']
 end
 
-# drop .my.cnf file
-mysqlm_dot_my_cnf 'root' do
-  passwd node['mysql-multi']['server_root_password']
-end
-
 tag('mysql_slave')
