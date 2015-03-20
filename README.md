@@ -30,7 +30,8 @@ write wrapper recipes to utilize the libraries. They may be removed in later rel
 `default.rb` : install a MySQL server instance.
 
 `mysql_master.rb` : sets up a master MySQL server and creates replicant users
-for each slave node defined within attributes.
+for each slave node defined within attributes. This recipe only configures master
+specific configurations, it expects default.rb to be ran prior for proper converge.
 
 When utilized, search will look for the node(s) in the same environment with the tag
 `mysql_slave` and grant the allowed replicating node(s). If you do not want to
@@ -38,7 +39,8 @@ use search, create the slave node(s) first before bootstrapping, and set the
 attribute `['mysql-multi']['master']` with the correct IP array.
 
 `mysql_slave.rb` : sets up a slave MySQL server pointing to the master node
-defined within attributes.
+defined within attributes. This recipe only configures slave specific
+configurations, it expects default.rb to be ran prior for proper converge.
 
 Search will look for the node in the same environment with the tag
 `mysql_master` and set master replication to that node. If you do not want to

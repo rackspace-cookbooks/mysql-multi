@@ -3,6 +3,10 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.0 (2015-3-20)
+- Major update to recipes, moved MySQL service install specific code to default.rb
+  Leaving Master/Slave specific code in the other recipes
+
 v2.0.0 (2015-3-02)
 - Major update to provide compatibility with MySQL community cookbook version 6.x
 
