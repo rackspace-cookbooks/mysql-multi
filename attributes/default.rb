@@ -21,6 +21,7 @@ default['mysql-multi']['templates']['master.cnf']['source'] = 'master.cnf.erb'
 # additional mysql namespace attributes needed for recipe since community
 # cookbook moved to version 6.x
 
+default['mysql-multi']['install_recipe'] = 'mysql-multi'
 default['mysql-multi']['server_root_password'] = nil
 default['mysql-multi']['service_name'] = 'chef'
 default['mysql-multi']['server_version'] = '5.5'

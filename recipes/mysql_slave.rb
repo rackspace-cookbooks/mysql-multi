@@ -17,6 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe node['mysql-multi']['install_recipe']
 include_recipe 'mysql-multi::_find_master'
 
 # creates unique serverid via ipaddress to an int
