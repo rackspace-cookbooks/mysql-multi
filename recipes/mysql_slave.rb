@@ -43,7 +43,7 @@ end
 mysqlm_slave_sync 'slaves' do
   replpasswd node['mysql-multi']['server_repl_password']
   rootpasswd node['mysql-multi']['server_root_password']
-  master_ip node['mysql-multi']['master_ip']
+  master_ip node['mysql-multi']['master']
 end
 
 # drop .my.cnf file

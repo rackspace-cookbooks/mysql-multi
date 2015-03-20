@@ -44,7 +44,7 @@ end
 mysqlm_slave_grants 'master' do
   replpasswd node['mysql-multi']['server_repl_password']
   rootpasswd node['mysql-multi']['server_root_password']
-  slave_ip node['mysql-multi']['slave_ip']
+  slave_ip node['mysql-multi']['slaves']
 end
 
 # drop /root/.my.cnf file
