@@ -43,4 +43,5 @@ end
 
 mysql2_chef_gem 'default' do
   action :install
+  client_version node['mysql-multi']['server_version']
 end

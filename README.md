@@ -102,6 +102,7 @@ as well as adding this code to your recipe:
 ```ruby
 
 mysql2_chef_gem 'default' do
+  client_version node['mysql-multi']['server_version']
   action :install
 end
 
