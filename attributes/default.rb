@@ -27,3 +27,4 @@ default['mysql-multi']['service_name'] = 'chef'
 default['mysql-multi']['server_version'] = '5.5'
 default['mysql-multi']['bind_address'] = '0.0.0.0'
 default['mysql-multi']['service_port'] = '3306'
+default['mysql-multi']['serverid'] = nil

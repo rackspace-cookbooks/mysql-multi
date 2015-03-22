@@ -20,10 +20,14 @@
 include_recipe node['mysql-multi']['install_recipe']
 include_recipe 'mysql-multi::_find_master'
 
-# creates unique serverid via ipaddress to an int
-require 'ipaddr'
-serverid = IPAddr.new node['ipaddress']
-serverid = serverid.to_i
+if node['mysql-multi']['serverid'].nil?
+  # creates unique serverid via ipaddress to an int
+  require 'ipaddr'
+  serverid = IPAddr.new node['ipaddress']
+  serverid = serverid.to_i
+else
+  serverid = node['mysql-multi']['serverid']
+end
 
 # drop slave.cnf configuration file
 mysql_config 'slave replication' do
