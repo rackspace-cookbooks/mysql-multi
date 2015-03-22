@@ -69,6 +69,10 @@ the slave MySQL user, by default it is set to 'replicant'.
 best `bind_address` for mysql. Allowing you to set it to whatever is needed for
 your specific configuration.
 
+`['mysql-multi']['serverid']` default behaviour is to use a unique ID create from
+the IP address, however this allows manual overriding. Default to nil
+
+
 Additional attributes added due to the redesign of the community MySQL recipe.
 
 `['mysql-multi']['server_root_password']` sets root password for MySQL service.
