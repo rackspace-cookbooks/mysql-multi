@@ -28,7 +28,7 @@ if node['mysql-multi']['serverid'].nil?
 else
   serverid = node['mysql-multi']['serverid']
 end
-    
+
 # drop master.cnf configuration file
 mysql_config 'master replication' do
   config_name 'replication'
