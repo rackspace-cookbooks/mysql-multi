@@ -14,7 +14,6 @@ end
 describe file('/etc/mysql-chef/conf.d/replication.cnf') do
   it { should contain('sync_binlog = 1').after(/^\[mysqld\]/) }
   it { should contain('read_only = 1').after(/^\[mysqld\]/) }
-  it { should contain('server-id').from(/^\[mysqld\]/).to(/^\[/) }
 end
 
 describe file('/root/.my.cnf') do
