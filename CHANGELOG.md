@@ -3,6 +3,9 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.2 (2015-04-06)
+- Added guard to slave_sync provider to keep it from trying to setup replication every run.
+
 v2.1.1 (2015-3-24)
 - Minor changes to the way recipe handles serverid's and added chef_gem version attribute
 
