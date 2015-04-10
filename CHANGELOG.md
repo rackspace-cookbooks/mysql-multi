@@ -3,6 +3,9 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.3 (2015-04-10)
+ - Added additional search functionality (PR #59)
+
 v2.1.2 (2015-04-06)
 - Added guard to slave_sync provider to keep it from trying to setup replication every run.
 
