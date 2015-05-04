@@ -45,10 +45,15 @@ mysql_config 'master replication' do
 end
 
 # grant replication user privs for slave servers
-mysqlm_slave_grants 'master' do
-  replpasswd node['mysql-multi']['server_repl_password']
-  rootpasswd node['mysql-multi']['server_root_password']
-  slaves node['mysql-multi']['slaves']
+if node['mysql-multi']['slaves'].nil?
+  errmsg = 'Unable to determine any slaves, skipping grants'
+  Chef::Log.warn(errmsg)
+else
+  mysqlm_slave_grants 'master' do
+    replpasswd node['mysql-multi']['server_repl_password']
+    rootpasswd node['mysql-multi']['server_root_password']
+    slaves node['mysql-multi']['slaves']
+  end
 end
 
 tag('mysql_master')

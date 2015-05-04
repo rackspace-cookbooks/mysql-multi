@@ -3,6 +3,9 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.4 (2015-05-04)
+ - Added guard to mysql_master recipe to not do slave grants if no slaves are set.
+
 v2.1.3 (2015-04-10)
  - Added additional search functionality (PR #59)
 
