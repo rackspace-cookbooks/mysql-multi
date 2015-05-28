@@ -3,11 +3,14 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.5 (2015-05-28)
+- Added a check for best_ip_for returning nil. That does not help anything.
+
 v2.1.4 (2015-05-04)
- - Added guard to mysql_master recipe to not do slave grants if no slaves are set.
+- Added guard to mysql_master recipe to not do slave grants if no slaves are set.
 
 v2.1.3 (2015-04-10)
- - Added additional search functionality (PR #59)
+- Added additional search functionality (PR #59)
 
 v2.1.2 (2015-04-06)
 - Added guard to slave_sync provider to keep it from trying to setup replication every run.
