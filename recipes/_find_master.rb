@@ -30,7 +30,7 @@ elsif node['mysql-multi']['master'].nil?
   # -- we should have been checking if the first element is nil (see below)
   master = master.first
 
-  if master.nil?
+  if master.nil? || !best_ip_for(master)
     # fail hard if you're on chef or chef-zero and no master was found
     # we don't want to assume localhost or any other value, and cause more
     # problems or an outage
