@@ -8,6 +8,6 @@ if defined?(ChefSpec)
   end
 
   def mysqlm_slave_sync(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:mysql_slave_sync, :create, resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:mysqlm_slave_sync, :create, resource_name)
   end
 end

@@ -3,6 +3,9 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.6 (2015-07-04)
+- Fixed bug with the resource name mysqlm_slave_sync
+
 v2.1.5 (2015-05-28)
 - Added a check for best_ip_for returning nil. That does not help anything.
 
