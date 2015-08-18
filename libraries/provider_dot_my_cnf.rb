@@ -9,7 +9,7 @@ class Chef
       end
 
       action :create do
-        template '.my.cnf' do  # ~FC009
+        template '.my.cnf' do # ~FC009
           cookbook new_resource.cookbook
           path "#{new_resource.path}.my.cnf"
           source new_resource.source
