@@ -2,7 +2,7 @@
 driver:
   name: vagrant
 driver_config:
-  require_chef_omnibus: latest
+  require_chef_omnibus: true
 
 provisioner:
   name: chef_zero
@@ -18,7 +18,7 @@ provisioner:
 platforms:
   - name: ubuntu-12.04
   - name: ubuntu-14.04
-  - name: centos-6.6
+  - name: centos-6.7
 <% if ENV['CI'] %>
   - name: centos-7
 <% else %>
