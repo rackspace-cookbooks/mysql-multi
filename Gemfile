@@ -4,10 +4,11 @@ group :lint do
   gem 'foodcritic', '~> 3.0'
   gem 'foodcritic-rackspace-rules'
   gem 'rubocop', '~> 0.24'
+  gem 'rspec'
 end
 
 group :unit do
-  gem 'berkshelf', '~> 3'
+  gem 'berkshelf', '~> 4'
   gem 'chefspec', '~> 4'
   gem 'chef-sugar'
 end
