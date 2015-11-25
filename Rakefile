@@ -12,8 +12,7 @@ namespace :style do
   desc 'Run Chef style checks'
   FoodCritic::Rake::LintTask.new(:chef) do |t|
     t.options = { search_gems: true,
-                  tags: %w(~rackspace-support),
-                  fail_tags: %w(correctness,rackspace)
+                  fail_tags: ['correctness','rackspace']
                 }
   end
 end
@@ -23,46 +22,41 @@ task style: ['style:chef', 'style:ruby']
 
 # Rspec and ChefSpec
 desc 'Run ChefSpec unit tests'
-RSpec::Core::RakeTask.new(:spec) do |t|
+RSpec::Core::RakeTask.new(:spec) do |t, args|
   t.rspec_opts = 'test/unit'
 end
 
-# Integration tests - kitchen.ci
-desc 'Run Test Kitchen'
+# Integration tests. Kitchen.ci
 namespace :integration do
-  Kitchen.logger = Kitchen.default_file_logger
-
-  desc 'Run kitchen test with Vagrant'
+  desc 'Run Test Kitchen with Vagrant'
   task :vagrant do
+    Kitchen.logger = Kitchen.default_file_logger
     Kitchen::Config.new.instances.each do |instance|
       instance.test(:always)
     end
   end
 
-  %w(verify destroy).each do |t|
-    desc "Run kitchen #{t} with cloud plugins"
-    namespace :cloud do
-      task t do
-        @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.cloud.yml')
-        config = Kitchen::Config.new(loader: @loader)
-        concurrency = config.instances.size
-        queue = Queue.new
-        config.instances.each { |i| queue << i }
-        concurrency.times { queue << nil }
-        threads = []
-        concurrency.times do
-          threads << Thread.new do
-            while instance = queue.pop
-              instance.send(t)
-            end
+  desc 'Run Test Kitchen with cloud plugins'
+  task :cloud do
+    if ENV['CI'] == 'true'
+      Kitchen.logger = Kitchen.default_file_logger
+      @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.cloud.yml')
+      config = Kitchen::Config.new(loader: @loader)
+      concurrency = config.instances.size
+      queue = Queue.new
+      config.instances.each {|i| queue << i }
+      concurrency.times { queue << nil }
+      threads = []
+      concurrency.times do
+        threads << Thread.new do
+          while instance = queue.pop
+            instance.test(:always)
           end
         end
-        threads.map(&:join)
       end
+      threads.map { |i| i.join }
     end
   end
-
-  task cloud: ['cloud:verify', 'cloud:destroy']
 end
 
 desc 'Run all tests on CI Platform'
