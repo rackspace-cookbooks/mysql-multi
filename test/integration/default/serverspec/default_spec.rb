@@ -14,9 +14,9 @@ describe file('/etc/mysql-chef/conf.d') do
 end
 
 describe file('/root/.my.cnf') do
-  it { should contain('user=\'root\'').from('\[mysql\]').to('\[client\]') }
-  it { should contain('password=\'SillyRootPasswd\'').from('\[mysql\]').to('\[client\]') }
-  it { should contain('user=\'root\'').after('\[client\]') }
-  it { should contain('password=\'SillyRootPasswd\'').after('\[client\]') }
+  it { should contain('user="root"').from('\[mysql\]').to('\[client\]') }
+  it { should contain('password="SillyRootPasswd"').from('\[mysql\]').to('\[client\]') }
+  it { should contain('user="root"').after('\[client\]') }
+  it { should contain('password="SillyRootPasswd"').after('\[client\]') }
   it { should be_mode(600) }
 end
