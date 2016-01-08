@@ -3,6 +3,10 @@ mysql-multi Cookbook CHANGELOG
 This file is used to list changes made in each version of the mysql-multi
 cookbook.
 
+v2.1.7 (2016-01-08)
+- Fixed user my.cnf to contain quoted values
+- Fixed rubocop syntax errors
+
 v2.1.6 (2015-07-04)
 - Fixed bug with the resource name mysqlm_slave_sync
 
