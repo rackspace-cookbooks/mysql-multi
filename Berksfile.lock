@@ -1,0 +1,36 @@
+DEPENDENCIES
+  mysql-multi
+    path: .
+    metadata: true
+
+GRAPH
+  apt (2.9.2)
+  build-essential (2.2.4)
+  chef-sugar (3.3.0)
+  mariadb (0.3.1)
+    apt (>= 0.0.0)
+    yum (>= 0.0.0)
+    yum-epel (>= 0.0.0)
+  mysql (6.1.2)
+    smf (>= 0.0.0)
+    yum-mysql-community (>= 0.0.0)
+  mysql-multi (2.1.7)
+    apt (>= 0.0.0)
+    chef-sugar (>= 0.0.0)
+    mysql (>= 0.0.0)
+    mysql2_chef_gem (~> 1.0)
+    openssl (>= 0.0.0)
+  mysql2_chef_gem (1.0.2)
+    build-essential (>= 0.0.0)
+    mariadb (>= 0.0.0)
+    mysql (~> 6.0)
+  openssl (4.4.0)
+    chef-sugar (>= 3.1.1)
+  rbac (1.0.3)
+  smf (2.2.7)
+    rbac (>= 1.0.1)
+  yum (3.9.0)
+  yum-epel (0.6.5)
+    yum (~> 3.2)
+  yum-mysql-community (0.1.21)
+    yum (>= 3.2)

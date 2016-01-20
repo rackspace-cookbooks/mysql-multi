@@ -25,11 +25,10 @@ if Chef::Config[:solo]
 elsif node['mysql-multi']['master'].nil?
   master = search('node', 'tags:mysql_master' << " AND chef_environment:#{node.chef_environment}")
   Chef::Log.warn('Multiple servers tagged as master found!') if master.count > 1
-
   # needed because the search returns a list, so nil? is always false
   # -- we should have been checking if the first element is nil (see below)
   master = master.first
-
+  # rubocop:disable all
   if master.nil? || !best_ip_for(master)
     # fail hard if you're on chef or chef-zero and no master was found
     # we don't want to assume localhost or any other value, and cause more
@@ -38,6 +37,7 @@ elsif node['mysql-multi']['master'].nil?
   else
     node.set['mysql-multi']['master'] = best_ip_for(master)
   end
+  # rubocop:enable all
 else
   str_master = node['mysql-multi']['master']
   Chef::Log.info("Master MySQL server was already set to #{str_master}")
